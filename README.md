@@ -8,6 +8,7 @@ Geração automática de números de bilhetes para cada rifa cadastrada.
 Cadastro de compradores, com informações como nome, e-mail e CPF.
 Compra de bilhetes pelos compradores, com validação de disponibilidade de bilhetes e controle de quantidade máxima por compra.
 Consulta de compras realizadas por comprador ou por rifa.
+
 Tecnologias utilizadas
 Node.js
 Express
@@ -28,11 +29,13 @@ Copy code
 npm install
 Configure as variáveis de ambiente para conexão com o banco de dados. Crie um arquivo .env na raiz do projeto e adicione as seguintes variáveis:
 makefile
+
 Copy code
 DB_HOST=seu_host
 DB_USER=seu_usuario
 DB_PASS=sua_senha
 DB_NAME=nome_do_banco_de_dados
+
 Crie as tabelas do banco de dados:
 Copy code
 npx sequelize-cli db:migrate
@@ -40,7 +43,6 @@ Inicie a aplicação:
 sql
 Copy code
 npm start
-Acesse a aplicação em seu navegador através do endereço http://localhost:3000.
 
 Contribuindo
 Caso queira contribuir para este projeto, por favor siga as instruções abaixo:
