@@ -8,83 +8,80 @@ datasource db {
 }
 
 model buyer {
-  id                  Int                   @id @default(autoincrement())
-  full_name           String                @db.VarChar(255)
-  email               String                @unique @db.VarChar(255)
-  phone               String                @db.VarChar(20)
-  cpf                 String                @unique @db.VarChar(11)
-  created_at          DateTime              @default(now()) @db.Timestamptz(6)
-  purchases           purchases[]
-  ticket_reservations ticket_reservations[]
-}
-
-model purchases {
-  id               Int      @id @default(autoincrement())
-  buyer_id         Int
-  raffle_id        Int
-  quantity_tickets Int
-  total_value      Decimal  @db.Decimal(10, 2)
-  purchase_date    DateTime @default(now()) @db.Timestamptz(6)
-  ticket_numbers   Int[]
-  payment_status   String   @default("pendente") @db.VarChar(255)
-  updated_at       DateTime @default(now()) @db.Timestamptz(6)
-  buyer            buyer    @relation(fields: [buyer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  raffles          raffles  @relation(fields: [raffle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@unique([buyer_id, raffle_id, ticket_numbers])
-}
-
-model raffles {
-  id                  Int                   @id @default(autoincrement())
-  seller_id           Int
-  title               String                @db.VarChar(255)
-  description         String
-  ticket_price        Decimal               @db.Decimal(10, 2)
-  available_tickets   Int
-  total_tickets       Int
-  remaining_tickets   Int
-  start_date          DateTime              @db.Timestamptz(6)
-  end_date            DateTime              @db.Timestamptz(6)
-  created_at          DateTime              @default(now()) @db.Timestamptz(6)
-  updated_at          DateTime              @db.Timestamptz(6)
-  status              Boolean?
-  consult_numbers     consult_numbers[]
-  purchases           purchases[]
-  sellers             sellers               @relation(fields: [seller_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ticket_reservations ticket_reservations[]
-}
-
-model sellers {
-  id           Int       @id @default(autoincrement())
-  name         String    @db.VarChar(255)
-  email        String    @unique @db.VarChar(255)
-  key_password String    @db.VarChar(255)
-  phone_number String    @unique @db.VarChar(20)
-  cpf          String    @unique @db.VarChar(11)
-  created_at   DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at   DateTime  @default(now()) @db.Timestamptz(6)
-  raffles      raffles[]
-}
-
-model ticket_reservations {
-  id               Int      @id @default(autoincrement())
-  raffle_id        Int
-  buyer_id         Int
-  ticket_numbers   Int[]
-  reservation_date DateTime @default(now()) @db.Timestamptz(6)
-  expiration_date  DateTime @default(dbgenerated("(now() + '00:30:00'::interval)")) @db.Timestamptz(6)
-  buyer            buyer    @relation(fields: [buyer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  raffles          raffles  @relation(fields: [raffle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                   Int                    @id @default(autoincrement())
+  full_name            String                 @db.VarChar(255)
+  email                String                 @unique @db.VarChar(255)
+  phone                String                 @unique @db.VarChar(20)
+  created_at           DateTime               @default(now()) @db.Timestamptz(6)
+  numbers_reservations numbers_reservations[]
+  purchases            purchases[]
 }
 
 model consult_numbers {
-  id                Int      @id @default(autoincrement())
-  raffle_id         Int
-  purchased_numbers Int[]
-  reserved_numbers  Int[]
-  updated_at        DateTime @default(now()) @db.Timestamptz(6)
-  raffles           raffles  @relation(fields: [raffle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id             Int      @id @default(autoincrement())
+  raffle_id      Int
+  random_numbers Int[]
+  ticket_date    DateTime @default(now()) @db.Timestamptz(6)
+  raffles        raffles  @relation(fields: [raffle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([purchased_numbers(ops: raw("gin__int_ops"))], map: "idx_purchased_numbers_gin", type: Gin)
-  @@index([reserved_numbers(ops: raw("gin__int_ops"))], map: "idx_reserved_numbers_gin", type: Gin)
+  @@index([random_numbers], map: "idx_reserved_numbers_gin", type: Gin)
+}
+
+model numbers_reservations {
+  id               Int       @id @default(autoincrement())
+  buyer_id         Int
+  purchases_id     Int
+  raffle_id        Int
+  ticket_numbers   Int[]
+  payment_status   Boolean   @default(false)
+  reservation_date DateTime  @default(now()) @db.Timestamptz(6)
+  buyer            buyer     @relation(fields: [buyer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  purchases        purchases @relation(fields: [purchases_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  raffles          raffles   @relation(fields: [raffle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([ticket_numbers], map: "idx_purchases_ticket_numbers_gin", type: Gin)
+}
+
+model purchases {
+  id                   Int                    @id @default(autoincrement())
+  buyer_id             Int
+  raffle_id            Int
+  quantity_tickets     Int
+  total_value          Decimal                @db.Decimal(10, 2)
+  purchase_date        DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime               @default(now()) @db.Timestamptz(6)
+  numbers_reservations numbers_reservations[]
+  buyer                buyer                  @relation(fields: [buyer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  raffles              raffles                @relation(fields: [raffle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model raffles {
+  id                   Int                    @id @default(autoincrement())
+  seller_id            Int
+  title                String                 @unique @db.VarChar(255)
+  description          String
+  ticket_price         Decimal                @db.Decimal(10, 2)
+  available_tickets    Int
+  total_tickets        Int
+  start_date           DateTime               @db.Timestamptz(6)
+  end_date             DateTime               @db.Timestamptz(6)
+  created_at           DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime               @db.Timestamptz(6)
+  consult_numbers      consult_numbers[]
+  numbers_reservations numbers_reservations[]
+  purchases            purchases[]
+  sellers              sellers                @relation(fields: [seller_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model sellers {
+  id            Int       @id @default(autoincrement())
+  name          String    @db.VarChar(255)
+  email         String    @unique @db.VarChar(255)
+  password_hash String    @db.VarChar(255)
+  phone_number  String    @unique @db.VarChar(20)
+  cpf           String    @unique @db.VarChar(15)
+  plan          String    @default("Teste") @db.VarChar(255)
+  created_at    DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime  @default(now()) @db.Timestamptz(6)
+  raffles       raffles[]
 }

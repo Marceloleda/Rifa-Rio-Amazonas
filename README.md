@@ -13,8 +13,7 @@ Tecnologias utilizadas
 Node.js
 Express
 PostgreSQL
-Sequelize
-Handlebars
+TypeScript
 Instalação e execução
 Clone este repositório em sua máquina local:
 bash
