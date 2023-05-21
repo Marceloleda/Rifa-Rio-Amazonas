@@ -2,6 +2,7 @@ import Joi from 'joi';
 import { SignUp } from '@/protocols';
 import { SignInParams } from '@/services/authentication-service';
 import { cpf } from 'cpf-cnpj-validator';
+import { raffles } from '@prisma/client';
 
 
 export const signInSchema = Joi.object<SignInParams>({
@@ -32,9 +33,9 @@ export const signUpSchema = Joi.object<SignUp>({
     .required()
   });
 
-  // export const credentialSchema = Joi.object<create>({
-  //   title: Joi.string().required(),
-  //   url: Joi.string().required(),
-  //   username: Joi.string().required(),
-  //   password: Joi.string().required(),
-  // });
+  export const raffleSchema = Joi.object<raffles>({
+    title: Joi.string().required(),
+    description: Joi.string().min(20).required(),
+    ticket_price: Joi.number().required(),
+    total_tickets: Joi.number().required()
+  });

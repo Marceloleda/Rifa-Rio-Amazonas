@@ -54,10 +54,10 @@ CREATE TABLE "raffles" (
     "ticket_price" DECIMAL(10,2) NOT NULL,
     "available_tickets" INTEGER NOT NULL,
     "total_tickets" INTEGER NOT NULL,
-    "start_date" TIMESTAMPTZ(6) NOT NULL,
-    "end_date" TIMESTAMPTZ(6) NOT NULL,
+    "start_date" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "end_date" TIMESTAMPTZ(6),
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMPTZ(6) NOT NULL,
+    "updated_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "raffles_pkey" PRIMARY KEY ("id")
 );
@@ -88,9 +88,6 @@ CREATE INDEX "idx_reserved_numbers_gin" ON "consult_numbers" USING GIN ("random_
 
 -- CreateIndex
 CREATE INDEX "idx_purchases_ticket_numbers_gin" ON "numbers_reservations" USING GIN ("ticket_numbers");
-
--- CreateIndex
-CREATE UNIQUE INDEX "raffles_title_key" ON "raffles"("title");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "sellers_email_key" ON "sellers"("email");

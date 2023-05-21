@@ -1,7 +1,7 @@
 import { notFoundError } from "@/errors"
 import bcrypt from 'bcrypt';
 import { SignUp } from "@/protocols"
-import sellerRepository from "@/repositories/sellers-repository.ts"
+import sellerRepository from "@/repositories/sellers-repository"
 import { Response } from "express"
 import httpStatus from "http-status"
 
