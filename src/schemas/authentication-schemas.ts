@@ -33,9 +33,11 @@ export const signUpSchema = Joi.object<SignUp>({
     .required()
   });
 
-  export const raffleSchema = Joi.object<raffles>({
+export const raffleSchema = Joi.object<raffles>({
     title: Joi.string().required(),
     description: Joi.string().min(20).required(),
-    ticket_price: Joi.number().required(),
+    ticket_price: Joi.number().precision(2).required(),
     total_tickets: Joi.number().required()
-  });
+});
+
+

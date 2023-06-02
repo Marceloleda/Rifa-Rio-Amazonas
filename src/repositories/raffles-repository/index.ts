@@ -3,11 +3,11 @@ import { createRaffle } from "@/protocols";
 
 async function createRaffles(data: createRaffle){
     return await prisma.raffles.create({
-        data,
+        data
     })
 }
 
-async function findRafflesByUserId(id:number) {
+async function findSellerAndRafflesByUserId(id:number) {
     return await prisma.sellers.findUnique({
         where: {
             id
@@ -18,8 +18,16 @@ async function findRafflesByUserId(id:number) {
     })
 }
 
+async function findRaffle(id:number) {
+    return await prisma.raffles.findUnique({
+        where: {id}
+    })
+}
+
+
 const rafflesRepository = {
     createRaffles,
-    findRafflesByUserId
+    findSellerAndRafflesByUserId,
+    findRaffle
 }
 export default rafflesRepository;
