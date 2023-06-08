@@ -9,6 +9,6 @@ export async function createSignUpSeller(req: Request, res: Response){
         await signUpService.signUpCreate(res, data);
         return res.sendStatus(httpStatus.CREATED);
     }catch(error){
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR);
+        return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
     }
 }

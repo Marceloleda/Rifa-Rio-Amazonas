@@ -12,6 +12,6 @@ export async function createRaffle(req: AuthenticatedRequest, res: Response){
         return res.sendStatus(httpStatus.CREATED);
     }catch(error){
         console.log(error.message)
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR);
+        return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
     }
 }

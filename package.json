@@ -22,6 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "@brazilian-utils/brazilian-utils": "^1.0.0-rc.12",
+    "@mercadopago/sdk-js": "^0.0.2",
     "@prisma/client": "^4.13.0",
     "@types/cors": "^2.8.13",
     "bcrypt": "^5.1.0",
@@ -40,6 +41,7 @@
     "http-status": "^1.6.2",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
+    "mercadopago": "^1.5.16",
     "pg": "^8.10.0",
     "reflect-metadata": "^0.1.13"
   },

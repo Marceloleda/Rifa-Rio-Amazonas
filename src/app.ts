@@ -6,6 +6,7 @@ import { connectDb, disconnectDB } from './config/database';
 import { handleApplicationErrors } from './middlewares';
 import { 
   authenticationRouter, 
+  plansRouter, 
   rafflesRouter, 
   signUpRouter 
 } from './routers';
@@ -19,6 +20,7 @@ app
   .use('/auth', authenticationRouter)
   .use('/sign-up', signUpRouter)
   .use('/raffle', rafflesRouter)
+  .use('/plan', plansRouter)
   .use(handleApplicationErrors);
 
 
