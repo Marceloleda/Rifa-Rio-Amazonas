@@ -14,42 +14,4 @@ Node.js
 Express
 PostgreSQL
 TypeScript
-Instalação e execução
-Clone este repositório em sua máquina local:
-bash
-Copy code
-git clone https://github.com/seu-usuario/sistema-rifas.git
-Acesse a pasta do projeto:
-bash
-Copy code
-cd sistema-rifas
-Instale as dependências do projeto:
-Copy code
-npm install
-Configure as variáveis de ambiente para conexão com o banco de dados. Crie um arquivo .env na raiz do projeto e adicione as seguintes variáveis:
-makefile
 
-Copy code
-DB_HOST=seu_host
-DB_USER=seu_usuario
-DB_PASS=sua_senha
-DB_NAME=nome_do_banco_de_dados
-
-Crie as tabelas do banco de dados:
-Copy code
-npx sequelize-cli db:migrate
-Inicie a aplicação:
-sql
-Copy code
-npm start
-
-Contribuindo
-Caso queira contribuir para este projeto, por favor siga as instruções abaixo:
-
-Crie um fork deste repositório.
-Crie um branch com a sua feature: git checkout -b minha-feature.
-Faça as alterações desejadas e faça um commit descrevendo as mudanças: git commit -m "minha feature: novas funcionalidades".
-Envie as alterações para o seu repositório remoto: git push origin minha-feature.
-Abra um pull request neste repositório para que possamos avaliar suas alterações.
-Licença
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
