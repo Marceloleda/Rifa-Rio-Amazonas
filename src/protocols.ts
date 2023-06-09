@@ -17,3 +17,15 @@ export type payment_body = {
     email: string,
     cpf: string
 }
+
+export type webhook_notfication = {
+    
+    action: string,
+    api_version: string
+    data: { id: number },
+    date_created: Date,
+    id: number,
+    live_mode: boolean,
+    type: string,
+    user_id: number
+}

@@ -4,16 +4,16 @@ import httpStatus from "http-status";
 import { payment_body } from "@/protocols";
 config();
 
-async function payment(res:Response, body:payment_body) {
+async function paymentPix(res:Response, body:payment_body) {
     
     var mercadopago = require('mercadopago');
-    mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_TEST);
+    mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
     
     var payment_data = {
       transaction_amount: body.value,
       description: body.name_plan,
       payment_method_id: 'pix',
-      notification_url: "https://rifas-rn.onrender.com/mercadopago/webhook",
+      notification_url: process.env.URL_WEBHOOK,
       payer: {
         email: body.email,
         first_name: body.name_user,
@@ -27,11 +27,11 @@ async function payment(res:Response, body:payment_body) {
     
     await mercadopago.payment.create(payment_data).then((data: any)=> {
       if(data){
-        console.log("cria pagamento para plano")
+        console.log("payment created")
       }
       res.send(data.body)
     }).catch(function (error:any) {
-      console.log("deu ruim na criacao de pagamento")
+      console.log("failed payment creation")
       console.log(error.message)
       return res.sendStatus(httpStatus.UNAUTHORIZED);
     });
@@ -41,6 +41,6 @@ async function payment(res:Response, body:payment_body) {
 
 
 const mercadoPagoMiddleware = {
-    payment
+  paymentPix
 }
 export default mercadoPagoMiddleware

@@ -1,9 +1,15 @@
-import { NextFunction, Request, Response } from "express";
+import { AuthenticatedRequest } from "@/middlewares";
+import { webhook_notfication } from "@/protocols";
+import { NextFunction, Response } from "express";
 
-export async function webhook(req: Request, res: Response, next: NextFunction){
+export async function webhook(req: AuthenticatedRequest, res: Response, next: NextFunction){
+    const {userId} = req
+    const notification: webhook_notfication = req.body;
     try{
-        const notification = req.body;
         console.log('Notificação do Mercado Pago recebida:', notification);
+        console.log(notification.data.id)
+
+        // await webHookService.updatePlan(userId, purchase) altera o plano 
         return res.sendStatus(200);
     }catch(error){
         next(error)
