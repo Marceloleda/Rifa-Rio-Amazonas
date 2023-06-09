@@ -5,6 +5,7 @@ import httpStatus from "http-status";
 
 export async function basicPlan(req: AuthenticatedRequest, res: Response, next:NextFunction){
     const {userId} = req
+    console.log("function basic plan", userId)
     try{
         const paymentCreated = await planService.createPaymentToBasic(res, userId, next);
         return res.status(httpStatus.OK).send(paymentCreated);

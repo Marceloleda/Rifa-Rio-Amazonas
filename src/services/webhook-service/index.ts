@@ -2,11 +2,13 @@ import { notFoundError, unauthorizedError } from "@/errors";
 import sellerRepository from "@/repositories/sellers-repository";
 import { config } from "dotenv";
 import { NextFunction, Request, Response } from "express";
+import planService from "../plans-service";
+import { AuthenticatedRequest } from "@/middlewares";
 var mercadopago = require('mercadopago');
 
 config();
 
-async function findPurchase( idData: number, next: NextFunction) {
+async function findPurchase(req: AuthenticatedRequest, idData: number, next: NextFunction) {
   try {
     if (!idData) throw notFoundError();
 
@@ -15,7 +17,8 @@ async function findPurchase( idData: number, next: NextFunction) {
     if (!payment) throw notFoundError();
   
     const status_payment = payment.body.status;
-  
+    console.log(status_payment)
+    planService.updatePlanToBasic(req, status_payment)
     if (status_payment === "approved") {
     
         // const userUpdate = {
