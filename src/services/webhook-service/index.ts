@@ -17,7 +17,6 @@ async function findPurchase( idData: number, next: NextFunction) {
   
     const status_payment = payment.body.status;
     console.log(status_payment)
-    planService.updatePlanToBasic(status_payment)
     if (status_payment === "approved") {
     
         // const userUpdate = {
