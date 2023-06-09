@@ -22,7 +22,7 @@ export type webhook_notfication = {
     
     action: string,
     api_version: string
-    data: { id: string },
+    data: { id: number },
     date_created: Date,
     id: number,
     live_mode: boolean,
