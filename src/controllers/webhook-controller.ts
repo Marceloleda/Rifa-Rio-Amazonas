@@ -1,3 +1,4 @@
+import { notFoundError } from "@/errors";
 import { AuthenticatedRequest } from "@/middlewares";
 import { webhook_notfication } from "@/protocols";
 import webHookService from "@/services/webhook-service";
@@ -7,6 +8,8 @@ export async function webhook(req: AuthenticatedRequest, res: Response, next: Ne
     const {userId} = req
     const notification: webhook_notfication = req.body;
     try{
+        if(!notification) throw notFoundError()
+        
         await webHookService.findPurchase(res, notification.data.id, next)
 
         // await webHookService.updatePlan(userId, purchase) altera o plano 

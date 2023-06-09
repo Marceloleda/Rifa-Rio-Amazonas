@@ -1,9 +1,10 @@
 import { config } from "dotenv";
+config();
+
 import { NextFunction, Response } from "express";
-import httpStatus from "http-status";
 // const find = await webhookRepository.findByIdPurchase(id)
 
-async function findPurchase(res: Response,id:number, next: NextFunction) {
+async function findPurchase(res: Response,id:string, next: NextFunction) {
     var mercadopago = require('mercadopago');
     mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
 
