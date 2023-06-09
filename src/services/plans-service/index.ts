@@ -23,7 +23,6 @@ async function updatePlanToBasic(res: Response, userId: number) {
 
 async function updatePlanToPremium(res: Response, userId: number) {
     const user = await sellerRepository.findByUserId(userId)
-    console.log(user)
     const body = {
         name_plan: "Premium",
         name_user:user.name,
@@ -31,6 +30,7 @@ async function updatePlanToPremium(res: Response, userId: number) {
         email: user.email,
         cpf: user.cpf
     }
+
     try{
         const payment = await mercadoPagoMiddleware.payment(res, body)
         return payment

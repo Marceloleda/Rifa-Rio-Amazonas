@@ -13,22 +13,14 @@ async function payment(res:Response, body:payment_body) {
       transaction_amount: body.value,
       description: body.name_plan,
       payment_method_id: 'pix',
-      notification_url: "https://webhook.site/28277264-aa98-4d43-afce-7d97caeb0de5",
+      notification_url: "https://rifas-rn.onrender.com/plan/premium",
       payer: {
         email: body.email,
         first_name: body.name_user,
-        last_name: '',
+        last_name: 'user',
         identification: {
             type: 'CPF',
-            number: '19119119100'
-        },
-        address:  {
-            zip_code: '06233200',
-            street_name: 'Av. das Nações Unidas',
-            street_number: '3003',
-            neighborhood: 'Bonfim',
-            city: 'Osasco',
-            federal_unit: 'SP'
+            number: body.cpf
         }
       }
     };
