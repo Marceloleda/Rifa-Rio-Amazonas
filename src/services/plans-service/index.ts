@@ -28,8 +28,7 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
     }
 }
 
-async function updatePlanToBasic(req: AuthenticatedRequest, status:string) {
-    const {userId} = req
+async function updatePlanToBasic(userId: number, status:string) {
     if(!userId) throw unauthorizedError()
     if(!status) throw notFoundError()
 

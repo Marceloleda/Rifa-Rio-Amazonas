@@ -1,11 +1,15 @@
+import { AuthenticatedRequest } from "@/middlewares";
+import planService from "@/services/plans-service";
 import webHookService from "@/services/webhook-service";
 import { NextFunction, Request, Response } from "express";
 
-export async function webhook(req: Request, res: Response, next: NextFunction){
+export async function webhook(req: AuthenticatedRequest, res: Response, next: NextFunction){
     try{
+        const {userId} = req
         const notification = req.body;
-        const test = await webHookService.findPurchase(notification.data.id, next)
-        console.log(test.body.status)
+        const payment = await webHookService.findPurchase(notification.data.id, next)
+        const status_payment = payment.body.status
+        planService.updatePlanToBasic(userId, status_payment)
         return res.sendStatus(200);
     }catch(error){
         console.log(error.message)
