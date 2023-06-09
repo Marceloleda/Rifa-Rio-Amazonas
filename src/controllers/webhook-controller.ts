@@ -4,9 +4,10 @@ import webHookService from "@/services/webhook-service";
 import { NextFunction, Request, Response } from "express";
 
 export async function webhook(req: AuthenticatedRequest, res: Response, next: NextFunction){
+    const {userId} = req
     try{
         const notification = req.body;
-        const payment = await webHookService.findPurchase(notification.data.id, next)
+        const payment = await webHookService.findPurchase(userId, notification.data.id, next)
         const status_payment = payment.body.status
         console.log(status_payment)
         // if(status_payment === "approved"){
