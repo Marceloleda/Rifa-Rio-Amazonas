@@ -1,16 +1,19 @@
 import mercadoPagoMiddleware from "@/middlewares/mercado-pago-middleware";
+import sellerRepository from "@/repositories/sellers-repository";
 import { Response } from "express";
 import httpStatus from "http-status";
 
-async function updatePlanToBasic(res: Response) {
+async function updatePlanToBasic(res: Response, userId: number) {
+    const user = await sellerRepository.findByUserId(userId)
     const body = {
-        plan: "Basico",
-        value: 29.90
+        name_plan: "Basico",
+        name_user:user.name,
+        value: 29.90,
+        email: user.email,
+        cpf: user.cpf
     }
     try{
-        const payment = await mercadoPagoMiddleware.payment(res)
-        console.log("cria pagamento para plano basico")
-        return payment
+        return await mercadoPagoMiddleware.payment(res, body)
     }
     catch(error){
         console.log(error.message)
@@ -18,14 +21,18 @@ async function updatePlanToBasic(res: Response) {
     }
 }
 
-async function updatePlanToPremium(res: Response) {
+async function updatePlanToPremium(res: Response, userId: number) {
+    const user = await sellerRepository.findByUserId(userId)
+    console.log(user)
     const body = {
-        plan: "Premium",
-        value: 79.90
+        name_plan: "Premium",
+        name_user:user.name,
+        value: 79.90,
+        email: user.email,
+        cpf: user.cpf
     }
     try{
-        const payment = await mercadoPagoMiddleware.payment(res)
-        console.log("cria pagamento para plano premium")
+        const payment = await mercadoPagoMiddleware.payment(res, body)
         return payment
     }
     catch(error){

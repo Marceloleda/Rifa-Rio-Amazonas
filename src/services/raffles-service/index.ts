@@ -1,3 +1,4 @@
+import { forbiddenError, notFoundError, unauthorizedError } from "@/errors";
 import mercadoPagoMiddleware from "@/middlewares/mercado-pago-middleware";
 import { createRaffle } from "@/protocols";
 import rafflesRepository from "@/repositories/raffles-repository";
@@ -21,9 +22,8 @@ function isDecimalNumber(value: any) {
 
 async function raffleCreate(res: Response, data:createRaffle, userId: number) { 
     const date = dayjs();
-    if(!userId){
-        return res.sendStatus(httpStatus.UNAUTHORIZED)
-    }  
+    if(!userId) throw unauthorizedError()
+      
     const decimal: Decimal = new Decimal(data.ticket_price)
 
     if(!isDecimalNumber(decimal)){
@@ -33,9 +33,8 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
     const sellers: Omit<sellers,'password_hash' | 'updated_at'> & { raffles: raffles[];} = 
     await rafflesRepository.findSellerAndRafflesByUserId(userId)
 
-    if(!sellers){
-        return res.sendStatus(httpStatus.NOT_FOUND)
-    }  
+    if(!sellers) throw notFoundError();
+
     const test = sellers.raffles.map((value)=>{
         return value.total_tickets
     })
@@ -56,15 +55,13 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
             expire_at: expireAt
         };
 
-        if(!raffleData){
-            return res.sendStatus(httpStatus.NOT_FOUND)
-        }  
+        if(!raffleData) throw notFoundError();
 
         if(sellers.raffles.length >=1){
-            return res.status(httpStatus.FORBIDDEN).send({message: "You need to change plans to perform this action (raffles length)."})
+            throw forbiddenError("You need to change plans to perform this action (raffles length).")
         }
         if(raffleData.total_tickets > 100){
-            return res.status(httpStatus.FORBIDDEN).send({message: "You need to change plans to perform this action (tickets)."})
+            throw forbiddenError("You need to change plans to perform this action (tickets).")
         }
 
         const raffleCreated = await rafflesRepository.createRaffles(raffleData)
@@ -86,15 +83,13 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
             expire_at: expireAt
         };
 
-        if(!raffleData){
-            return res.sendStatus(httpStatus.NOT_FOUND)
-        }  
+        if(!raffleData) throw notFoundError();
 
         if(sellers.raffles.length >=3){
-            return res.status(httpStatus.FORBIDDEN).send({message: "You need to change plans to perform this action (raffles length)."})
+            throw forbiddenError("You need to change plans to perform this action (raffles length).")
         }
         if(raffleData.total_tickets > 1000){
-            return res.status(httpStatus.FORBIDDEN).send({message: "You need to change plans to perform this action (tickets)."})
+            throw forbiddenError("You need to change plans to perform this action (tickets).")
         }
        
 

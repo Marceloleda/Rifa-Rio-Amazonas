@@ -38,11 +38,12 @@ export function handleApplicationErrors(
     });
   }
 
-  if (err.name === 'CannotListHotelsError') {
-    return res.status(httpStatus.NOT_FOUND).send({
+  if (err.name === 'ForbiddenError') {
+    return res.status(httpStatus.FORBIDDEN).send({
       message: err.message,
     });
   }
+  
 
   /* eslint-disable-next-line no-console */
   console.error(err.name);

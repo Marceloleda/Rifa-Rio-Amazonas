@@ -4,8 +4,9 @@ import { Request, Response } from "express";
 import httpStatus from "http-status";
 
 export async function basicPlan(req: AuthenticatedRequest, res: Response){
+    const {userId} = req
     try{
-        const paymentCreated = await planService.updatePlanToBasic(res);
+        const paymentCreated = await planService.updatePlanToBasic(res, userId);
         return res.status(httpStatus.OK).send(paymentCreated);
     }catch(error){
         console.log(error.message)
@@ -14,10 +15,8 @@ export async function basicPlan(req: AuthenticatedRequest, res: Response){
 }
 export async function premiumPlan(req: AuthenticatedRequest, res: Response){
     const {userId} = req
-    const body = req.body
-    console.log(body)
     try{
-        const paymentCreated = await planService.updatePlanToPremium(res);
+        const paymentCreated = await planService.updatePlanToPremium(res, userId);
         return res.status(httpStatus.OK).send(paymentCreated);
     }catch(error){
         console.log(error.message)
