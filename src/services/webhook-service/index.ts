@@ -5,7 +5,7 @@ config();
 import { NextFunction, Response } from "express";
 // const find = await webhookRepository.findByIdPurchase(id)
 
-async function findPurchase(res: Response,id:any, next: NextFunction) {
+async function findPurchase(id:any, next: NextFunction) {
     if(!id) throw notFoundError()
     var mercadopago = require('mercadopago');
     mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
