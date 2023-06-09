@@ -37,9 +37,8 @@ async function updatePlanToBasic(req: AuthenticatedRequest, status:string) {
     const userUpdate ={
         ...user, plan: "Basico"
     }
-    if(status === "approved"){
-        return await sellerRepository.updatePlan(userUpdate, userId)
-    }
+    
+    return await sellerRepository.updatePlan(userUpdate, userId)
 
 }
 
