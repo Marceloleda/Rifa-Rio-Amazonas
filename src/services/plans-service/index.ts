@@ -68,7 +68,6 @@ async function createPaymentToPremium(res: Response, userId: number) {
 
 const planService = {
     createPaymentToBasic,
-    createPaymentToPremium,
-    updatePlanToBasic
+    createPaymentToPremium
 }
 export default planService
