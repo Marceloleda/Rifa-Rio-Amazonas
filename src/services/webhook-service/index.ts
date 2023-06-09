@@ -7,6 +7,7 @@ var mercadopago = require('mercadopago');
 config();
 
 async function findPurchase(userId: number, idData: number, next: NextFunction) {
+    console.log("verifica o userId", userId, idData)
     try {
       if (!idData) throw notFoundError();
       if (!userId) throw unauthorizedError();
