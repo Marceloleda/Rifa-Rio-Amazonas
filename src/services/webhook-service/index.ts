@@ -24,8 +24,8 @@ async function findPurchase( idData: number, next: NextFunction) {
         // };
   
         // const planUpdate = await sellerRepository.updatePlan(userUpdate, userId);
+        console.log(status_payment)
         console.log("mudar plano")
-        return ;
       }
 
       return payment;
