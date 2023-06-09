@@ -10,7 +10,7 @@ async function findPurchase(userId: number, idData: number, next: NextFunction) 
     console.log("verifica o userId", userId, idData)
     try {
       if (!idData) throw notFoundError();
-      if (!userId) throw unauthorizedError();
+      if (userId === undefined) throw unauthorizedError();
 
       const payment = await mercadopago.payment.get(idData);
   

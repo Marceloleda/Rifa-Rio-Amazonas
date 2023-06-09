@@ -6,6 +6,8 @@ export async function webhook(req: AuthenticatedRequest, res: Response, next: Ne
     const { userId } = req;
   
     try {
+    console.log("verifica o userId", userId)
+
       const notification = req.body;
       const payment = await webHookService.findPurchase(userId, notification.data.id, next);
       const status_payment = payment?.body?.status;
