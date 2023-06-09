@@ -7,16 +7,16 @@ var mercadopago = require('mercadopago');
 config();
 
 async function findPurchase( idData: number, next: NextFunction) {
-    try {
-      if (!idData) throw notFoundError();
+  try {
+    if (!idData) throw notFoundError();
 
-      const payment = await mercadopago.payment.get(idData);
+    const payment = await mercadopago.payment.get(idData);
   
-      if (!payment) throw notFoundError();
+    if (!payment) throw notFoundError();
   
-      const status_payment = payment.body.status;
+    const status_payment = payment.body.status;
   
-      if (status_payment === "approved") {
+    if (status_payment === "approved") {
     
         // const userUpdate = {
         //   ...user,
@@ -24,19 +24,23 @@ async function findPurchase( idData: number, next: NextFunction) {
         // };
   
         // const planUpdate = await sellerRepository.updatePlan(userUpdate, userId);
-        console.log(status_payment)
-        console.log("mudar plano")
-      }
-
-      return payment;
-    } catch (error) {
-      console.log(error.message);
-      next(error);
+      changePlan(status_payment)
+      console.log("mudar plano")
     }
+
+    return payment;
+  } catch (error) {
+    console.log(error.message);
+    next(error);
   }
+}
+async function changePlan(status:string) {
+  return console.log("changing", status)
+}
 
 const webHookService = {
-    findPurchase
+    findPurchase,
+    changePlan
 }
 
 export default webHookService
