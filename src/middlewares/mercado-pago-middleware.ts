@@ -13,7 +13,6 @@ async function paymentPix(res:Response, body:payment_body) {
       transaction_amount: body.value,
       description: body.name_plan,
       payment_method_id: 'pix',
-      notification_url: process.env.URL_WEBHOOK,
       payer: {
         email: body.email,
         first_name: body.name_user,
