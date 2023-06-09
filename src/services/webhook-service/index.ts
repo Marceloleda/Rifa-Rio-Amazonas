@@ -9,7 +9,8 @@ config();
 async function findPurchase(userId: number, idData: number, next: NextFunction) {
     try {
       if (!idData) throw notFoundError();
-  
+      if (!userId) throw unauthorizedError();
+
       const payment = await mercadopago.payment.get(idData);
   
       if (!payment) throw notFoundError();
@@ -17,7 +18,6 @@ async function findPurchase(userId: number, idData: number, next: NextFunction) 
       const status_payment = payment.body.status;
   
       if (status_payment === "approved") {
-        if (!userId) throw unauthorizedError();
   
         const user = await sellerRepository.findByUserId(userId);
   
