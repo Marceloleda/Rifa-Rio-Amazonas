@@ -7,11 +7,11 @@ import { NextFunction, Response } from "express";
 export async function webhook(req: AuthenticatedRequest, res: Response, next: NextFunction){
     const {userId} = req
     const notification: webhook_notfication = req.body;
-    console.log(notification)
     try{
         if(!notification) throw notFoundError()
+        console.log(notification)
 
-        await webHookService.findPurchase(notification.data.id, next)
+        // await webHookService.findPurchase(notification.data.id, next)
 
         // await webHookService.updatePlan(userId, purchase) altera o plano 
         return res.sendStatus(200);
