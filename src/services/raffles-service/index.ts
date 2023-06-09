@@ -1,9 +1,6 @@
 import { forbiddenError, notFoundError, unauthorizedError } from "@/errors";
-import mercadoPagoMiddleware from "@/middlewares/mercado-pago-middleware";
 import { createRaffle } from "@/protocols";
 import rafflesRepository from "@/repositories/raffles-repository";
-import sellerRepository from "@/repositories/sellers-repository";
-import { exclude } from "@/utils/prisma-utils";
 import { raffles, sellers } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import dayjs from "dayjs";
