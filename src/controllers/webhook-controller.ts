@@ -7,12 +7,12 @@ export async function webhook(req: AuthenticatedRequest, res: Response, next: Ne
     const {userId} = req
     const notification: webhook_notfication = req.body;
     try{
-        console.log('Notificação do Mercado Pago recebida:', notification);
         await webHookService.findPurchase(res, notification.data.id, next)
 
         // await webHookService.updatePlan(userId, purchase) altera o plano 
         return res.sendStatus(200);
     }catch(error){
+        console.log(error.message)
         next(error)
     }
 }
