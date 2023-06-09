@@ -17,7 +17,7 @@ async function paymentPix(res:Response, body:payment_body) {
       payer: {
         email: body.email,
         first_name: body.name_user,
-        last_name: 'user',
+        last_name: '',
         identification: {
             type: 'CPF',
             number: body.cpf
