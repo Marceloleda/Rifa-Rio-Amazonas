@@ -6,11 +6,9 @@ var mercadopago = require('mercadopago');
 
 config();
 
-async function findPurchase(userId: number, idData: number, next: NextFunction) {
-    console.log("verifica o userId", userId, idData)
+async function findPurchase( idData: number, next: NextFunction) {
     try {
       if (!idData) throw notFoundError();
-      if (!userId) throw unauthorizedError();
 
       const payment = await mercadopago.payment.get(idData);
   
@@ -19,16 +17,15 @@ async function findPurchase(userId: number, idData: number, next: NextFunction) 
       const status_payment = payment.body.status;
   
       if (status_payment === "approved") {
+    
+        // const userUpdate = {
+        //   ...user,
+        //   plan: "Basico",
+        // };
   
-        const user = await sellerRepository.findByUserId(userId);
-  
-        const userUpdate = {
-          ...user,
-          plan: "Basico",
-        };
-  
-        const planUpdate = await sellerRepository.updatePlan(userUpdate, userId);
-        return planUpdate;
+        // const planUpdate = await sellerRepository.updatePlan(userUpdate, userId);
+        console.log("mudar plano")
+        return ;
       }
 
       return payment;

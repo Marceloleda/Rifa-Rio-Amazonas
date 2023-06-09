@@ -3,15 +3,11 @@ import sellerRepository from "@/repositories/sellers-repository";
 import webHookService from "@/services/webhook-service";
 import { NextFunction, Request, Response } from "express";
 
-export async function webhook(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-    const { userId } = req;
+export async function webhook(req: Request, res: Response, next: NextFunction) {
   
     try {
-      console.log("verifica o userId", userId)
-      const user = await sellerRepository.findByUserId(userId);
-      console.log(user)
       const notification = req.body;
-      const payment = await webHookService.findPurchase(userId, notification.data.id, next);
+      const payment = await webHookService.findPurchase( notification.data.id, next);
       const status_payment = payment?.body?.status;
       console.log(status_payment);
   
