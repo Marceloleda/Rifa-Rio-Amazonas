@@ -9,11 +9,8 @@ async function findPurchase(idData:number, next: NextFunction) {
     if(!idData) throw notFoundError()
     var mercadopago = require('mercadopago');
     mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_TEST);
-    const filters = {
-        data: {id: idData}
-      };
 
-    mercadopago.payment.search(filters)
+    mercadopago.payment.get(idData)
   .then((data: any) => {
     // Processar o pagamento encontrado
     // const payment = data.body.status;
