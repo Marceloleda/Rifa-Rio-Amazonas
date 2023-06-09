@@ -5,6 +5,7 @@ import httpStatus from "http-status";
 
 async function findPurchase(res: Response,id:number, next: NextFunction) {
     var mercadopago = require('mercadopago');
+    mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
 
     mercadopago.payment.get(id)
   .then((data: any) => {
