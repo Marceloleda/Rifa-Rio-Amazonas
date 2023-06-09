@@ -12,12 +12,11 @@ async function findPurchase(res: Response,id:number, next: NextFunction) {
     mercadopago.payment.get(id)
   .then((data: any) => {
     // Processar o pagamento encontrado
-    const payment = data;
+    const payment = data.body.status;
     console.log(payment);
     res.send(payment);
   })
   .catch((error: any) => {
-    console.log("Falha ao buscar pagamento:", error);
     next(error)
   });
 
