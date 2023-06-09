@@ -3,12 +3,11 @@ import sellerRepository from "@/repositories/sellers-repository";
 import { config } from "dotenv";
 import { NextFunction, Request, Response } from "express";
 import planService from "../plans-service";
-import { AuthenticatedRequest } from "@/middlewares";
 var mercadopago = require('mercadopago');
 
 config();
 
-async function findPurchase(req: AuthenticatedRequest, idData: number, next: NextFunction) {
+async function findPurchase( idData: number, next: NextFunction) {
   try {
     if (!idData) throw notFoundError();
 
@@ -18,7 +17,7 @@ async function findPurchase(req: AuthenticatedRequest, idData: number, next: Nex
   
     const status_payment = payment.body.status;
     console.log(status_payment)
-    planService.updatePlanToBasic(req, status_payment)
+    planService.updatePlanToBasic(status_payment)
     if (status_payment === "approved") {
     
         // const userUpdate = {
@@ -27,7 +26,6 @@ async function findPurchase(req: AuthenticatedRequest, idData: number, next: Nex
         // };
   
         // const planUpdate = await sellerRepository.updatePlan(userUpdate, userId);
-      changePlan(status_payment)
       console.log("mudar plano")
     }
 

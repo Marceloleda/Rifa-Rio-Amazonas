@@ -28,21 +28,19 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
     }
 }
 
-async function updatePlanToBasic(req: AuthenticatedRequest, status:string) {
-    const {userId} = req
-    console.log("function updatePlanToBasic", userId, status)
+// async function updatePlanToBasic(status:string) {
+//     console.log("function updatePlanToBasic", status)
 
-    if(!userId) throw unauthorizedError()
-    if(!status) throw notFoundError()
+//     if(!status) throw notFoundError()
 
-    const user = await sellerRepository.findByUserId(userId)
-    const userUpdate ={
-        ...user, plan: "Basico"
-    }
+//     const user = await sellerRepository.findByUserId(userId)
+//     const userUpdate ={
+//         ...user, plan: "Basico"
+//     }
     
-    // return await sellerRepository.updatePlan(userUpdate, userId)
+//     // return await sellerRepository.updatePlan(userUpdate, userId)
 
-}
+// }
 
 async function createPaymentToPremium(res: Response, userId: number) {
     const user = await sellerRepository.findByUserId(userId)
