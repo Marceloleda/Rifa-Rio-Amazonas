@@ -1,4 +1,4 @@
-import { notFoundError, unauthorizedError } from "@/errors";
+import { forbiddenError, notFoundError, notModifiedError, unauthorizedError } from "@/errors";
 import mercadoPagoMiddleware from "@/middlewares/mercado-pago-middleware";
 import sellerRepository from "@/repositories/sellers-repository";
 import { Response } from "express";
@@ -9,6 +9,7 @@ async function updatePlanToBasic(res: Response, userId: number) {
     const user = await sellerRepository.findByUserId(userId)
     if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
+    if(user.plan === "Basico") throw notModifiedError()
     
     const body = {
         name_plan: "Basico",
@@ -18,7 +19,8 @@ async function updatePlanToBasic(res: Response, userId: number) {
         cpf: user.cpf
     }
     try{
-        return await mercadoPagoMiddleware.paymentPix(res, body)
+        await mercadoPagoMiddleware.paymentPix(res, body)
+        res.sendStatus(httpStatus.OK)
     }
     catch(error){
         console.log(error.message)

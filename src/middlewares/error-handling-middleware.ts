@@ -43,6 +43,11 @@ export function handleApplicationErrors(
       message: err.message,
     });
   }
+  if (err.name === 'NotModified') {
+    return res.status(httpStatus.NOT_MODIFIED).send({
+      message: err.message,
+    });
+  }
   
 
   /* eslint-disable-next-line no-console */
