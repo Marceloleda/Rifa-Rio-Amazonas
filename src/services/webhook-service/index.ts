@@ -27,10 +27,8 @@ async function findPurchase(userId: number, idData: number, next: NextFunction) 
         };
   
         const planUpdate = await sellerRepository.updatePlan(userUpdate, userId);
-        console.log(planUpdate)
         return planUpdate;
       }
-      console.log(payment)
 
       return payment;
     } catch (error) {
