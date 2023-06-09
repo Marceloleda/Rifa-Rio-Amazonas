@@ -8,7 +8,7 @@ export async function webhook(req: AuthenticatedRequest, res: Response, next: Ne
     try {
       const notification = req.body;
       const payment = await webHookService.findPurchase(userId, notification.data.id, next);
-      const status_payment = payment.body.status;
+      const status_payment = payment?.body?.status;
       console.log(status_payment);
   
       return res.sendStatus(200);
