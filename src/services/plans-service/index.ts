@@ -1,10 +1,10 @@
 import { forbiddenError, notFoundError, notModifiedError, unauthorizedError } from "@/errors";
 import mercadoPagoMiddleware from "@/middlewares/mercado-pago-middleware";
 import sellerRepository from "@/repositories/sellers-repository";
-import { Response } from "express";
+import { NextFunction, Response } from "express";
 import httpStatus from "http-status";
 
-async function updatePlanToBasic(res: Response, userId: number) {
+async function updatePlanToBasic(res: Response, userId: number, next: NextFunction) {
 
     const user = await sellerRepository.findByUserId(userId)
     if(!userId) throw unauthorizedError()
@@ -20,11 +20,10 @@ async function updatePlanToBasic(res: Response, userId: number) {
     }
     try{
         await mercadoPagoMiddleware.paymentPix(res, body)
-        res.sendStatus(httpStatus.OK)
     }
     catch(error){
         console.log(error.message)
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR);
+        next(error);
     }
 }
 
