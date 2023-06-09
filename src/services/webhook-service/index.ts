@@ -5,7 +5,7 @@ import httpStatus from "http-status";
 
 async function findPurchase(res: Response,id:number, next: NextFunction) {
     var mercadopago = require('mercadopago');
-    mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
+    mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_TEST);
 
     console.log('test')
 
@@ -14,7 +14,6 @@ async function findPurchase(res: Response,id:number, next: NextFunction) {
     // Processar o pagamento encontrado
     const payment = data.body.status;
     console.log(payment);
-    res.send(payment);
   })
   .catch((error: any) => {
     next(error)
