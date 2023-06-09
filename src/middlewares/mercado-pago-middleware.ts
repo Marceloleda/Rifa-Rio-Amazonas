@@ -7,7 +7,7 @@ config();
 async function paymentPix(res:Response, body:payment_body) {
     
     var mercadopago = require('mercadopago');
-    mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
+    mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_TEST);
     
     var payment_data = {
       transaction_amount: body.value,
