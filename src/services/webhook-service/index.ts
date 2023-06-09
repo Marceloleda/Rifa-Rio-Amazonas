@@ -8,7 +8,7 @@ import { NextFunction, Response } from "express";
 async function findPurchase(idData:number, next: NextFunction) {
     if(!idData) throw notFoundError()
     var mercadopago = require('mercadopago');
-    mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_TEST);
+    mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
 
     mercadopago.payment.get(idData)
   .then((data: any) => {
