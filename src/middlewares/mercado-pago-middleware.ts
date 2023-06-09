@@ -27,17 +27,18 @@ async function paymentPix(res:Response, body:payment_body) {
         }
       }
     };
-    
-    await mercadopago.payment.create(payment_data).then((data: any)=> {
-      if(data){
+    try{
+      const payment = await mercadopago.payment.create(payment_data)
+      if(payment){
         console.log("payment created")
       }
-      return res.send(data.body)
-    }).catch(function (error:any) {
+      return res.send(payment.body)
+    }
+    catch(error) {
       console.log("failed payment creation")
       console.log(error.message)
       return res.sendStatus(httpStatus.UNAUTHORIZED);
-    });
+    };
 }
 
 
