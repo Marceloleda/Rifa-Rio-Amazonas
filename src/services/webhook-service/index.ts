@@ -14,7 +14,7 @@ async function findPurchase(idData:number, next: NextFunction) {
   .then((data: any) => {
     // Processar o pagamento encontrado
     // const payment = data.body.status;
-    console.log(data);
+    console.log(data.body.status);
   })
   .catch((error: any) => {
     console.log(error.message)
