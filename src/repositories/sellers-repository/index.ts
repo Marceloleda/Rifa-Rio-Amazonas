@@ -2,17 +2,17 @@ import { prisma } from "@/config";
 import { SignUp } from "@/protocols";
 
 async function findByEmail(email: string){
-    return prisma.sellers.findUnique({
+    return await prisma.sellers.findUnique({
         where:{email}
     })
 }
 async function findByCPF(cpf: string){
-    return prisma.sellers.findUnique({
+    return await prisma.sellers.findUnique({
         where:{cpf}
     })
 }
 async function findByPhone(phone: string){
-    return prisma.sellers.findUnique({
+    return await prisma.sellers.findUnique({
         where:{phone_number: phone}
     })
 }
@@ -24,8 +24,14 @@ async function findByUserId(id: number){
 }
 
 async function createSignUp(data: SignUp){
-    return prisma.sellers.create({
+    return await prisma.sellers.create({
         data,
+    })
+}
+async function updatePlan(planUpdate:any, id: number) {
+    return await prisma.sellers.update({
+        where:{id},
+        data: planUpdate
     })
 }
 const sellerRepository = {
@@ -33,7 +39,8 @@ const sellerRepository = {
     findByUserId,
     createSignUp,
     findByCPF,
-    findByPhone
+    findByPhone,
+    updatePlan
 }
 
 export default sellerRepository;

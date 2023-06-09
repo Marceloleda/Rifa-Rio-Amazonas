@@ -1,10 +1,11 @@
 import { forbiddenError, notFoundError, notModifiedError, unauthorizedError } from "@/errors";
+import { AuthenticatedRequest } from "@/middlewares";
 import mercadoPagoMiddleware from "@/middlewares/mercado-pago-middleware";
 import sellerRepository from "@/repositories/sellers-repository";
 import { NextFunction, Response } from "express";
 import httpStatus from "http-status";
 
-async function updatePlanToBasic(res: Response, userId: number, next: NextFunction) {
+async function createPaymentToBasic(res: Response, userId: number, next: NextFunction) {
 
     const user = await sellerRepository.findByUserId(userId)
     if(!userId) throw unauthorizedError()
@@ -27,7 +28,21 @@ async function updatePlanToBasic(res: Response, userId: number, next: NextFuncti
     }
 }
 
-async function updatePlanToPremium(res: Response, userId: number) {
+async function updatePlanToBasic(req: AuthenticatedRequest, status:string) {
+    const {userId} = req
+    if(!userId) throw unauthorizedError()
+    if(!status) throw notFoundError()
+
+    const user = await sellerRepository.findByUserId(userId)
+    const userUpdate ={
+        ...user, plan: "Basico"
+    }
+    if(status === "approved"){
+        await sellerRepository.updatePlan(userUpdate, userId)
+    }
+}
+
+async function createPaymentToPremium(res: Response, userId: number) {
     const user = await sellerRepository.findByUserId(userId)
     console.log(userId)
     if(!userId) throw unauthorizedError()
@@ -52,7 +67,8 @@ async function updatePlanToPremium(res: Response, userId: number) {
 }
 
 const planService = {
-    updatePlanToBasic,
-    updatePlanToPremium
+    createPaymentToBasic,
+    createPaymentToPremium,
+    updatePlanToBasic
 }
 export default planService
