@@ -9,8 +9,8 @@ export async function webhook(req: AuthenticatedRequest, res: Response, next: Ne
     const notification: webhook_notfication = req.body;
     try{
         if(!notification) throw notFoundError()
-        
-        await webHookService.findPurchase(res, notification.data.id, next)
+
+        await webHookService.findPurchase(res, notification.data, next)
 
         // await webHookService.updatePlan(userId, purchase) altera o plano 
         return res.sendStatus(200);
