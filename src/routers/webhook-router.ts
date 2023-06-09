@@ -4,7 +4,7 @@ import { Router } from "express";
 
 const webhookRouter = Router();
 
-webhookRouter.all('/*', authenticateToken).post('/webhook', webhook)
+webhookRouter.post('/webhook', webhook)
 
 export {webhookRouter}
 
