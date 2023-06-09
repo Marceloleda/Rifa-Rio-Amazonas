@@ -6,11 +6,9 @@ import { NextFunction, Response } from "express";
 
 export async function webhook(req: AuthenticatedRequest, res: Response, next: NextFunction){
     const {userId} = req
-    const notification: webhook_notfication = req.body;
     try{
-        if(!notification) throw notFoundError()
-        console.log(notification)
-
+        const notification = req.body;
+        console.log('Notificação do Mercado Pago recebida:', notification);
         // await webHookService.findPurchase(notification.data.id, next)
 
         // await webHookService.updatePlan(userId, purchase) altera o plano 
