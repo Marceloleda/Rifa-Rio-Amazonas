@@ -5,7 +5,7 @@ export async function webhook(req: Request, res: Response, next: NextFunction){
     try{
         const notification = req.body;
         const test = await webHookService.findPurchase(notification.data.id, next)
-        console.log(test)
+        console.log(test.body.status)
         return res.sendStatus(200);
     }catch(error){
         console.log(error.message)
