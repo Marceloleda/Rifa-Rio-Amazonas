@@ -1,7 +1,6 @@
 import { notFoundError } from "@/errors";
 import { config } from "dotenv";
 config();
-
 import { NextFunction, Response } from "express";
 // const find = await webhookRepository.findByIdPurchase(id)
 
@@ -10,18 +9,16 @@ async function findPurchase(idData:number, next: NextFunction) {
     var mercadopago = require('mercadopago');
     mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
 
-    const test = mercadopago.payment.get(idData)
+    mercadopago.payment.get(idData)
   .then((data: any) => {
     // Processar o pagamento encontrado
     const payment = data.body.status;
     console.log(payment);
-
   })
   .catch((error: any) => {
     console.log(error.message)
     next(error)
   });
-return test
 }
 
 
