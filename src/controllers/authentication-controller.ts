@@ -9,6 +9,7 @@ export async function postSignIn(req: Request, res: Response, next: NextFunction
         return res.status(httpStatus.OK).send({Token :result.token});
 
     }catch(error){
+        console.log(error)
         next(error)
     }
 }
