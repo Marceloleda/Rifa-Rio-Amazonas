@@ -5,12 +5,11 @@ import { NextFunction, Request, Response } from "express";
 
 export async function webhook(req: AuthenticatedRequest, res: Response, next: NextFunction){
     try{
-        const {userId} = req
         const notification = req.body;
         const payment = await webHookService.findPurchase(notification.data.id, next)
         const status_payment = payment.body.status
         console.log(status_payment)
-        await planService.updatePlanToBasic(userId, status_payment)
+        await planService.updatePlanToBasic(req, status_payment)
         return res.sendStatus(200);
     }catch(error){
         console.log(error.message)
