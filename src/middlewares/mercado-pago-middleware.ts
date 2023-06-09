@@ -13,7 +13,7 @@ async function payment(res:Response, body:payment_body) {
       transaction_amount: body.value,
       description: body.name_plan,
       payment_method_id: 'pix',
-      notification_url: "https://rifas-rn.onrender.com/plan/premium",
+      notification_url: "https://rifas-rn.onrender.com/mercadopago/webhook",
       payer: {
         email: body.email,
         first_name: body.name_user,

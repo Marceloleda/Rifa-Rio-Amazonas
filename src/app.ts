@@ -8,7 +8,8 @@ import {
   authenticationRouter, 
   plansRouter, 
   rafflesRouter, 
-  signUpRouter 
+  signUpRouter, 
+  webhookRouter
 } from './routers';
 
 
@@ -21,6 +22,7 @@ app
   .use('/sign-up', signUpRouter)
   .use('/raffle', rafflesRouter)
   .use('/plan', plansRouter)
+  .use('/mercadopago', webhookRouter)
   .use(handleApplicationErrors);
 
 

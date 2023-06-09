@@ -15,12 +15,9 @@ export async function basicPlan(req: AuthenticatedRequest, res: Response, next:N
 }
 export async function premiumPlan(req: AuthenticatedRequest, res: Response, next:NextFunction){
     const {userId} = req
-    console.log(req.body)
     try{
-        console.log(req.body)
-
-        // const paymentCreated = await planService.updatePlanToPremium(res, userId);
-        return res.status(httpStatus.OK).send(req.body);
+        const paymentCreated = await planService.updatePlanToPremium(res, userId);
+        return res.status(httpStatus.OK).send(paymentCreated);
     }catch(error){
         console.log(error.message)
         next(error)
