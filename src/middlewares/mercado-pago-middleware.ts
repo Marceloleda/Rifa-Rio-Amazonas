@@ -21,6 +21,7 @@ async function paymentPix(res:Response, body:payment_body) {
         email: body.email,
         first_name: body.name_user,
         last_name: '',
+        user_id:27,
         identification: {
             type: 'CPF',
             number: body.cpf
