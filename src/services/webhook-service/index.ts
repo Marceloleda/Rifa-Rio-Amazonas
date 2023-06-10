@@ -16,7 +16,7 @@ async function findPurchase( idData: number, next: NextFunction) {
     if (!payment) throw notFoundError();
   
     const status_payment = payment.body.status;
-    console.log(payment.body)
+    console.log(payment.body.payer.email)
     if (status_payment === "approved") {
     
         // const userUpdate = {
