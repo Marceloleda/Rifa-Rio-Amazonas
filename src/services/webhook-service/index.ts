@@ -25,10 +25,10 @@ async function findPurchase( res: Response,idData: number, next: NextFunction) {
         // };
   
         // const planUpdate = await sellerRepository.updatePlan(userUpdate, userId);
-        return res.send("approved")
+        console.log("approved")
     }
 
-    return payment;
+    return status_payment;
   } catch (error) {
     console.log(error.message);
     next(error);
