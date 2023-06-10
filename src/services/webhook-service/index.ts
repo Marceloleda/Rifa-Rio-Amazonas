@@ -7,7 +7,7 @@ var mercadopago = require('mercadopago');
 
 config();
 
-async function findPurchase( idData: number, next: NextFunction) {
+async function findPurchase( res: Response,idData: number, next: NextFunction) {
   try {
     if (!idData) throw notFoundError();
 
@@ -25,7 +25,7 @@ async function findPurchase( idData: number, next: NextFunction) {
         // };
   
         // const planUpdate = await sellerRepository.updatePlan(userUpdate, userId);
-      console.log("mudar plano")
+        return res.send("approved")
     }
 
     return payment;
