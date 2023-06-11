@@ -1,6 +1,6 @@
+import mercadoPago from "@/controllers/mercado-pago-controller";
 import { forbiddenError, notFoundError, notModifiedError, unauthorizedError } from "@/errors";
 import { AuthenticatedRequest } from "@/middlewares";
-import mercadoPagoMiddleware from "@/middlewares/mercado-pago-middleware";
 import sellerRepository from "@/repositories/sellers-repository";
 import { NextFunction, Response } from "express";
 import httpStatus from "http-status";
@@ -20,7 +20,7 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
         cpf: user.cpf
     }
     try{
-        await mercadoPagoMiddleware.paymentPix(res, body)
+        await mercadoPago.paymentPix(res, body, userId, next)
     }
     catch(error){
         console.log(error.message)
@@ -38,7 +38,7 @@ async function updatePlanToBasic(status:string) {
 
 }
 
-async function createPaymentToPremium(res: Response, userId: number) {
+async function createPaymentToPremium(res: Response, userId: number, next: NextFunction) {
     const user = await sellerRepository.findByUserId(userId)
     console.log(userId)
     if(!userId) throw unauthorizedError()
@@ -53,7 +53,7 @@ async function createPaymentToPremium(res: Response, userId: number) {
     }
 
     try{
-        const payment = await mercadoPagoMiddleware.paymentPix(res, body)
+        const payment = await mercadoPago.paymentPix(res, body, userId, next)
         return payment
     }
     catch(error){
