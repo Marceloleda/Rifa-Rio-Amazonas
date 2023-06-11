@@ -1,13 +1,11 @@
-import { notFoundError, unauthorizedError } from "@/errors";
-import sellerRepository from "@/repositories/sellers-repository";
+import { notFoundError } from "@/errors";
 import { config } from "dotenv";
-import { NextFunction, Request, Response } from "express";
-import planService from "../plans-service";
+import { NextFunction} from "express";
 var mercadopago = require('mercadopago');
 
 config();
 
-async function findPurchase( res: Response,idData: number, next: NextFunction) {
+async function findPurchase( idData: number, next: NextFunction) {
   try {
     if (!idData) throw notFoundError();
 
@@ -16,16 +14,9 @@ async function findPurchase( res: Response,idData: number, next: NextFunction) {
     if (!payment) throw notFoundError();
   
     const status_payment = payment.body.status;
-    console.log(payment.body.payer)
     if (status_payment === "approved") {
     
-        // const userUpdate = {
-        //   ...user,
-        //   plan: "Basico",
-        // };
-  
-        // const planUpdate = await sellerRepository.updatePlan(userUpdate, userId);
-        console.log("approved")
+      return console.log("approved")
     }
 
     return status_payment;
@@ -34,13 +25,10 @@ async function findPurchase( res: Response,idData: number, next: NextFunction) {
     next(error);
   }
 }
-async function changePlan(status:string) {
-  return console.log("changing", status)
-}
+
 
 const webHookService = {
-    findPurchase,
-    changePlan
+    findPurchase
 }
 
 export default webHookService
