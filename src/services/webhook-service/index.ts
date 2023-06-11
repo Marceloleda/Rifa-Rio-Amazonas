@@ -8,6 +8,7 @@ config();
 async function findPurchase( idData: number, next: NextFunction) {
   try {
     if (!idData) throw notFoundError();
+    console.log("quero ve se eh igual", idData)
 
     const payment = await mercadopago.payment.get(idData);
   

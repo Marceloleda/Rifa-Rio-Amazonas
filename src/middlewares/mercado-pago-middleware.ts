@@ -30,6 +30,7 @@ async function paymentPix(res:Response, body:payment_body) {
     try{
       const payment = await mercadopago.payment.create(payment_data)
       if(payment){
+        
         console.log("payment created")
       }
       return res.send(payment.body)
