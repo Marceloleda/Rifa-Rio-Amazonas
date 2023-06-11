@@ -7,8 +7,17 @@ async function findByIdPurchase(paymentId: any){
         }
     })
 }
+async function updateByIdPayment(payment: any){
+    return prisma.sellers.update({
+        where: {id: payment.seller_id},
+        data: {
+            plan: payment.description
+        }
+    })
+}
 const webhookRepository = {
-    findByIdPurchase
+    findByIdPurchase,
+    updateByIdPayment
 }
 
 export default webhookRepository;

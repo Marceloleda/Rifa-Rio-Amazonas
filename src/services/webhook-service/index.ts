@@ -17,7 +17,7 @@ async function findPurchaseAndChangePlan( idPayment: any, next: NextFunction) {
     const status_payment = payment.body.status;
     if (status_payment === "approved") {
       const userPlan = await webhookRepository.findByIdPurchase(idPayment)
-      
+      await webhookRepository.updateByIdPayment(userPlan)
       return console.log(userPlan)
     }
 
