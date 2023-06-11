@@ -5,7 +5,8 @@ async function create(payment:any, id: number) {
         data: {
             seller_id: id,
             payment_id: payment.id,
-            status_payment: payment.status
+            status_payment: payment.status,
+            description: payment.description
         }
 
     })

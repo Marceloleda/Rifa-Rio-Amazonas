@@ -1,22 +1,24 @@
 import { notFoundError } from "@/errors";
+import webhookRepository from "@/repositories/webhook-repository";
 import { config } from "dotenv";
 import { NextFunction} from "express";
 var mercadopago = require('mercadopago');
 
 config();
 
-async function findPurchase( idData: number, next: NextFunction) {
+async function findPurchaseAndChangePlan( idPayment: any, next: NextFunction) {
   try {
-    if (!idData) throw notFoundError();
+    if (!idPayment) throw notFoundError();
 
-    const payment = await mercadopago.payment.get(idData);
+    const payment = await mercadopago.payment.get(idPayment);
   
     if (!payment) throw notFoundError();
   
     const status_payment = payment.body.status;
     if (status_payment === "approved") {
-    
-      return console.log("approved")
+      const userPlan = await webhookRepository.findByIdPurchase(idPayment)
+      
+      return console.log(userPlan)
     }
 
     return status_payment;
@@ -28,7 +30,7 @@ async function findPurchase( idData: number, next: NextFunction) {
 
 
 const webHookService = {
-    findPurchase
+  findPurchaseAndChangePlan
 }
 
 export default webHookService

@@ -92,9 +92,10 @@ model sellers {
 model payments_plan {
   id             Int      @id @default(autoincrement())
   seller_id      Int
-  payment_id     String   @db.VarChar(255)
+  payment_id     String   @unique(map: "unique_payment_id") @db.VarChar(255)
   status_payment String   @db.VarChar(255)
   created_at     DateTime @default(now()) @db.Timestamptz(6)
   updated_at     DateTime @default(now()) @db.Timestamptz(6)
+  description    String?  @db.VarChar(255)
   sellers        sellers  @relation(fields: [seller_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
