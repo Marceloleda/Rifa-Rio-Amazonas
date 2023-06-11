@@ -1,9 +1,9 @@
-import { webhook } from "@/controllers";
+import { updatePlan, webhook } from "@/controllers";
 import { Router } from "express";
 
 const webhookRouter = Router();
 
-webhookRouter.post('/webhook', webhook)
+webhookRouter.post('/webhook', webhook, updatePlan)
 
 export {webhookRouter}
 
