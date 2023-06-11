@@ -6,7 +6,7 @@ var mercadopago = require('mercadopago');
 
 config();
 
-async function findPurchaseAndChangePlan( idPayment: any, next: NextFunction) {
+async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction) {
   try {
     if (!idPayment) throw notFoundError();
 

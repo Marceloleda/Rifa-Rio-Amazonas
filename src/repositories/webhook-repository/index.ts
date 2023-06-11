@@ -1,6 +1,6 @@
 import { prisma } from "@/config";
 
-async function findByIdPurchase(paymentId: any){
+async function findByIdPurchase(paymentId: string){
     return prisma.payments_plan.findUnique({
         where: {
             payment_id: paymentId
