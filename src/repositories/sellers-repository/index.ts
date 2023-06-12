@@ -34,13 +34,19 @@ async function updatePlan(planUpdate:any, id: number) {
         data: planUpdate
     })
 }
+async function quantityPlan( id: number) {
+    return await prisma.payments_plan.findMany({
+        where:{seller_id: id}
+    })
+}
 const sellerRepository = {
     findByEmail,
     findByUserId,
     createSignUp,
     findByCPF,
     findByPhone,
-    updatePlan
+    updatePlan,
+    quantityPlan
 }
 
 export default sellerRepository;

@@ -7,9 +7,12 @@ import httpStatus from "http-status";
 async function createPaymentToBasic(res: Response, userId: number, next: NextFunction) {
 
     const user = await sellerRepository.findByUserId(userId)
+    const quantityPlanUser = await sellerRepository.quantityPlan(userId)
+    console.log(quantityPlanUser)
     if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
     if(user.plan === "Basico") throw notModifiedError()
+
     
     const body = {
         name_plan: "Basico",

@@ -5,7 +5,7 @@ import httpStatus from "http-status";
 
 export async function basicPlan(req: AuthenticatedRequest, res: Response, next:NextFunction){
     const {userId} = req
-    console.log("function basic plan", userId)
+    console.log("basic plan")
     try{
         const paymentCreated = await planService.createPaymentToBasic(res, userId, next);
         return res.status(httpStatus.OK).send(paymentCreated);
@@ -16,6 +16,8 @@ export async function basicPlan(req: AuthenticatedRequest, res: Response, next:N
 }
 export async function premiumPlan(req: AuthenticatedRequest, res: Response, next:NextFunction){
     const {userId} = req
+    console.log("premium plan")
+
     try{
         const paymentCreated = await planService.createPaymentToPremium(res, userId, next);
         return res.status(httpStatus.OK).send(paymentCreated);
