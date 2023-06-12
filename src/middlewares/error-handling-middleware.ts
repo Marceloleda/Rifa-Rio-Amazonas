@@ -45,7 +45,7 @@ export function handleApplicationErrors(
   }
   if (err.name === 'NotModified') {
     return res.status(httpStatus.NOT_MODIFIED).send({
-      message: 'You already has this plan',
+      message: err.message,
     });
   }
   
