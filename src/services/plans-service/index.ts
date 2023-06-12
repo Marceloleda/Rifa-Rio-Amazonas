@@ -1,6 +1,5 @@
 import mercadoPago from "@/controllers/mercado-pago-controller";
-import { forbiddenError, notFoundError, notModifiedError, unauthorizedError } from "@/errors";
-import { AuthenticatedRequest } from "@/middlewares";
+import { notFoundError, notModifiedError, unauthorizedError } from "@/errors";
 import sellerRepository from "@/repositories/sellers-repository";
 import { NextFunction, Response } from "express";
 import httpStatus from "http-status";
@@ -28,15 +27,6 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
     }
 }
 
-async function updatePlanToBasic(status:string) {
-    console.log("function updatePlanToBasic", status)
-
-    if(!status) throw notFoundError()
-
-    
-    // return await sellerRepository.updatePlan(userUpdate, userId)
-
-}
 
 async function createPaymentToPremium(res: Response, userId: number, next: NextFunction) {
     const user = await sellerRepository.findByUserId(userId)
@@ -64,7 +54,6 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
 
 const planService = {
     createPaymentToBasic,
-    createPaymentToPremium,
-    updatePlanToBasic
+    createPaymentToPremium
 }
 export default planService
