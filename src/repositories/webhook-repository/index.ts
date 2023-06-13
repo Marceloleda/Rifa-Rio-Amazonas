@@ -15,9 +15,18 @@ async function updateByIdPayment(payment: any){
         }
     })
 }
+async function updateByIdStatus(payment: any){
+    return prisma.payments_plan.update({
+        where: {payment_id: payment},
+        data: {
+            status_payment: "approved"
+        }
+    })
+}
 const webhookRepository = {
     findByIdPurchase,
-    updateByIdPayment
+    updateByIdPayment,
+    updateByIdStatus
 }
 
 export default webhookRepository;

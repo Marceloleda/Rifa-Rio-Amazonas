@@ -11,6 +11,7 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
     console.log(quantityPlanUser.map((pay)=>{
         pay.status_payment
     }))
+    if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
     if(user.plan === "Basico") throw notModifiedError()
     
@@ -21,6 +22,7 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
         email: user.email,
         cpf: user.cpf
     }
+    console.log(body)
     try{
         await mercadoPago.paymentPix(res, body, userId, next)
     }
