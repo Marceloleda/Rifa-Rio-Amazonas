@@ -20,9 +20,9 @@ async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction)
       const userPlan = await webhookRepository.findByIdPurchase(idPayment)
       await webhookRepository.updateByIdStatus(idPayment)
       await webhookRepository.updateByIdPayment(userPlan)
-      return console.log(userPlan)
+      return 
     }
-    if (status_payment === "canceled") {
+    if (status_payment === "cancelled") {
       await webhookRepository.updateByIdStatusCanceled(idPayment)
       return
     }

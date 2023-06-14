@@ -8,14 +8,15 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
 
     const user = await sellerRepository.findByUserId(userId)
     const quantityPlanUser = await sellerRepository.quantityPlan(userId)
-    console.log(quantityPlanUser.map((pay)=>{
-        pay.status_payment
-    }))
+    // console.log(quantityPlanUser.map((pay)=>{
+    //     pay.status_payment
+    // }))
     if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
     if(user.plan === "Basico") throw notModifiedError()
     
     const body = {
+        id: userId,
         name_plan: "Basico",
         name_user:user.name,
         value: 0.10,

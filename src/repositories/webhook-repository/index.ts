@@ -27,7 +27,7 @@ async function updateByIdStatusCanceled(payment: any){
     return prisma.payments_plan.update({
         where: {payment_id: payment},
         data: {
-            status_payment: "canceled"
+            status_payment: "cancelled"
         }
     })
 }
