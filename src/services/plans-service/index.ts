@@ -16,7 +16,6 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
     if(user.plan === "Basico") throw notModifiedError()
     
     const body = {
-        id: userId,
         name_plan: "Basico",
         name_user:user.name,
         value: 0.10,

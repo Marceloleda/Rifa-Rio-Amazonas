@@ -21,7 +21,6 @@ async function paymentPix(res:Response, body:payment_body, userId: number, next:
       payment_method_id: 'pix',
       date_of_expiration: expireAt,
       payer: {
-        id: body.id,
         email: body.email,
         first_name: body.name_user,
         last_name: '',
