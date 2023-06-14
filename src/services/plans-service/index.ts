@@ -6,13 +6,6 @@ import { NextFunction, Response } from "express";
 import httpStatus from "http-status";
 
 async function createPaymentToBasic(res: Response, userId: number, next: NextFunction) {
-    const date = dayjs();
-    const expireAt = date.add(10, 'minutes');
-  
-    const isDayExpired = (date: any) => dayjs().date() === dayjs(date).date() ? 
-    false : dayjs().isAfter(dayjs(date));
-    console.log(isDayExpired(expireAt))
-
     const user = await sellerRepository.findByUserId(userId)
     const quantityPlanUser = await sellerRepository.quantityPlan(userId)
     // console.log(quantityPlanUser.map((pay)=>{
@@ -25,11 +18,10 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
     const body = {
         name_plan: "Basico",
         name_user:user.name,
-        value: 0.10,
+        value: 29.90,
         email: user.email,
         cpf: user.cpf
     }
-    console.log(body)
     try{
         await mercadoPago.paymentPix(res, body, userId, next)
     }
@@ -42,7 +34,6 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
 
 async function createPaymentToPremium(res: Response, userId: number, next: NextFunction) {
     const user = await sellerRepository.findByUserId(userId)
-    console.log(userId)
     if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
 
@@ -60,12 +51,34 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
     }
     catch(error){
         console.log(error.message)
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR);
+        next(error);
     }
 }
+async function createPaymentToMasterRaffle(res: Response, userId: number, next: NextFunction) {
+    const user = await sellerRepository.findByUserId(userId)
+    if(!userId) throw unauthorizedError()
+    if(!user) throw notFoundError()
 
+    const body = {
+        name_plan: "Mega Rifa",
+        name_user:user.name,
+        value: 199.90,
+        email: user.email,
+        cpf: user.cpf
+    }
+
+    try{
+        const payment = await mercadoPago.paymentPix(res, body, userId, next)
+        return payment
+    }
+    catch(error){
+        console.log(error.message)
+        next(error);
+    }
+}
 const planService = {
     createPaymentToBasic,
-    createPaymentToPremium
+    createPaymentToPremium,
+    createPaymentToMasterRaffle
 }
 export default planService

@@ -1,6 +1,5 @@
 import { NextFunction, Response } from "express";
 import { config } from "dotenv";
-import httpStatus from "http-status";
 import { payment_body } from "@/protocols";
 import dayjs from "dayjs";
 import { unauthorizedError } from "@/errors";
