@@ -1,10 +1,17 @@
 import mercadoPago from "@/controllers/mercado-pago-controller";
 import { notFoundError, notModifiedError, unauthorizedError } from "@/errors";
 import sellerRepository from "@/repositories/sellers-repository";
+import dayjs from "dayjs";
 import { NextFunction, Response } from "express";
 import httpStatus from "http-status";
 
 async function createPaymentToBasic(res: Response, userId: number, next: NextFunction) {
+    const date = dayjs();
+    const expireAt = date.add(10, 'minutes');
+  
+    const isDayExpired = (date: any) => dayjs().date() === dayjs(date).date() ? 
+    false : dayjs().isAfter(dayjs(date));
+    console.log(isDayExpired(expireAt))
 
     const user = await sellerRepository.findByUserId(userId)
     const quantityPlanUser = await sellerRepository.quantityPlan(userId)
