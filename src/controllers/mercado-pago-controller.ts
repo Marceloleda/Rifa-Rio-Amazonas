@@ -10,7 +10,7 @@ config();
 async function paymentPix(res:Response, body:payment_body, userId: number, next: NextFunction) {
   if(!userId) throw unauthorizedError()
   const date = dayjs();
-  const expireAt = date.add(5, 'minutes');
+  const expireAt = date.add(10, 'minutes');
 
     var mercadopago = require('mercadopago');
     mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
