@@ -1,6 +1,5 @@
 import { notFoundError } from "@/errors";
 import webhookRepository from "@/repositories/webhook-repository";
-import dayjs from "dayjs";
 import { config } from "dotenv";
 import { NextFunction} from "express";
 var mercadopago = require('mercadopago');
@@ -8,12 +7,6 @@ var mercadopago = require('mercadopago');
 config();
 
 async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction) {
-  const date = dayjs();
-  const expireAt = date.add(10, 'minutes');
-
-  const isDayExpired = (date: any) => dayjs().date() === dayjs(date).date() ? 
-  false : dayjs().isAfter(dayjs(date));
-  console.log(isDayExpired(expireAt))
   try {
     if (!idPayment) throw notFoundError();
 
@@ -29,10 +22,8 @@ async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction)
       await webhookRepository.updateByIdPayment(userPlan)
       return 
     }
-    if (isDayExpired(expireAt)) {
+    if (status_payment === "cancelled") {
       await webhookRepository.updateByIdStatusCanceled(idPayment)
-      mercadopago.payment.cancel(idPayment);
-
       return
     }
 
