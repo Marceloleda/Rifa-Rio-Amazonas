@@ -9,6 +9,7 @@ export async function createSignUpSeller(req: Request, res: Response, next: Next
         await signUpService.signUpCreate(res, data);
         return res.sendStatus(httpStatus.CREATED);
     }catch(error){
+        console.log(error.message)
         next(error)
     }
 }

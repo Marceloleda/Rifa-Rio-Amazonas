@@ -1,4 +1,5 @@
 import { raffles, sellers } from "@prisma/client";
+import Decimal from "decimal.js";
 
 export type ApplicationError = {
     name: string;
@@ -11,9 +12,10 @@ export type SignUp = Omit<sellers,  'created_at' | 'updated_at'>;
 export type createRaffle = Omit<raffles, 'updated_at'>
 
 export type payment_body = {
+    plan_id: number,
     name_plan: string,
     name_user:string,
-    value: number,
+    value: Decimal,
     email: string,
     cpf: string
 }

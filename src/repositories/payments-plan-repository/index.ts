@@ -8,7 +8,8 @@ async function create(payment:any, id: number) {
             seller_id: id,
             payment_id: paymentIdString,
             status_payment: payment.status,
-            description: payment.description
+            plan_id: payment.additional_info.plan_id,
+            name_plan: payment.description
         }
 
     })

@@ -27,7 +27,10 @@ async function paymentPix(res:Response, body:payment_body, userId: number, next:
             type: 'CPF',
             number: body.cpf
         }
-      }
+      },
+      additional_info: {
+        plan_id: body.plan_id
+    }
     };
     try{
       const payment = await mercadopago.payment.create(payment_data)

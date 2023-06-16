@@ -38,7 +38,7 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
     console.log(test)
 
     
-    if(sellers.plan === "Teste"){
+    if(sellers.plan_id === 1){
         
         // const isDayExpired = (date: string) => dayjs().date() === dayjs(date).date() ? 
         // false : dayjs().isAfter(dayjs(date));  implementar isso na funcao onde desativa a campanha NA HORA DE BUSCAR AS CAMPANHAS
@@ -66,7 +66,7 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
         return raffleCreated 
     }
 
-    if(sellers.plan === "Basic"){
+    if(sellers.plan_id === 2){
         
         // const isDayExpired = (date: string) => dayjs().date() === dayjs(date).date() ? 
         // false : dayjs().isAfter(dayjs(date));  implementar isso na funcao onde desativa a campanha NA HORA DE BUSCAR AS CAMPANHAS

@@ -1,5 +1,6 @@
 import mercadoPago from "@/controllers/mercado-pago-controller";
 import { notFoundError, notModifiedError, unauthorizedError } from "@/errors";
+import planRepository from "@/repositories/plans-repository";
 import sellerRepository from "@/repositories/sellers-repository";
 import dayjs from "dayjs";
 import { NextFunction, Response } from "express";
@@ -7,18 +8,21 @@ import httpStatus from "http-status";
 
 async function createPaymentToBasic(res: Response, userId: number, next: NextFunction) {
     const user = await sellerRepository.findByUserId(userId)
-    const quantityPlanUser = await sellerRepository.quantityPlan(userId)
+    // const quantityPlanUser = await sellerRepository.quantityPlan(userId)
+    const planBasic = await planRepository.findPlanBasic()
+    console.log(planBasic)
     // console.log(quantityPlanUser.map((pay)=>{
     //     pay.status_payment
     // }))
     if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
-    if(user.plan === "Basico") throw notModifiedError()
+    if(user.plan_id === 1) throw notModifiedError()
     
     const body = {
-        name_plan: "Basico",
+        plan_id:planBasic.id,
+        name_plan: planBasic.name,
         name_user:user.name,
-        value: 29.90,
+        value: planBasic.price,
         email: user.email,
         cpf: user.cpf
     }
@@ -36,11 +40,13 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
     const user = await sellerRepository.findByUserId(userId)
     if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
+    const planBasic = await planRepository.findPlanBasic()
 
     const body = {
-        name_plan: "Premium",
+        plan_id:planBasic.id,
+        name_plan: planBasic.name,
         name_user:user.name,
-        value: 79.90,
+        value: planBasic.price,
         email: user.email,
         cpf: user.cpf
     }
@@ -58,11 +64,13 @@ async function createPaymentToMasterRaffle(res: Response, userId: number, next: 
     const user = await sellerRepository.findByUserId(userId)
     if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
+    const planBasic = await planRepository.findPlanBasic()
 
     const body = {
-        name_plan: "Mega Rifa",
+        plan_id:planBasic.id,
+        name_plan: planBasic.name,
         name_user:user.name,
-        value: 199.90,
+        value: planBasic.price,
         email: user.email,
         cpf: user.cpf
     }
