@@ -23,6 +23,11 @@ async function paymentPix(res:Response, body:payment_body, userId: number, next:
       description: body.name_plan,
       payment_method_id: 'pix',
       date_of_expiration: expireAt,
+      additional_info: {
+          id: "MLB2907679857",
+          title: "Point Mini"
+          
+      },
       payer: {
         email: body.email,
         first_name: body.name_user,
@@ -31,10 +36,7 @@ async function paymentPix(res:Response, body:payment_body, userId: number, next:
             type: 'CPF',
             number: body.cpf
         }
-      },
-      additional_info: {
-        plan_id: body.plan_id
-    }
+      }
     };
     try{
       const payment = await mercadopago.payment.create(payment_data)
