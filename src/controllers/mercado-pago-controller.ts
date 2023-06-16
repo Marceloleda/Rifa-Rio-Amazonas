@@ -24,7 +24,8 @@ async function paymentPix(res:Response, body:payment_body, userId: number, next:
       payment_method_id: 'pix',
       date_of_expiration: expireAt,
       additional_info: {
-        plan:[{
+        items:[
+        {
           id: body.plan_id,
           title: body.name_plan
         }
