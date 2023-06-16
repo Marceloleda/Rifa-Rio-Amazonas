@@ -24,16 +24,11 @@ async function paymentPix(res:Response, body:payment_body, userId: number, next:
       payment_method_id: 'pix',
       date_of_expiration: expireAt,
       additional_info: {
-        items:
-          {
-            "id": "MLB2907679857",
-            "title": "Point Mini",
-            "description": "Producto Point para cobros con tarjetas mediante bluetooth",
-            "picture_url": "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium@2x.png",
-            "category_id": "electronics",
-            "quantity": 1,
-            "unit_price": 58.8
-          }
+        plan:[{
+          id: body.plan_id,
+          title: body.name_plan
+        }
+      ]
           
       },
       payer: {
