@@ -5,8 +5,12 @@ async function findPlanBasic() {
         where:{name: 'Plano Básico'}
     })
 }
+async function findAllPlans() {
+    return await prisma.plans.findMany()
+}
 const planRepository = {
-    findPlanBasic
+    findPlanBasic,
+    findAllPlans
 }
 
 export default planRepository;

@@ -16,7 +16,7 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
     // }))
     if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
-    if(user.plan_id === 1) throw notModifiedError()
+    if(user.plan_id === planBasic.id) throw notModifiedError()
     
     const body = {
         plan_id:planBasic.id,

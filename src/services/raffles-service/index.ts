@@ -1,5 +1,6 @@
 import { forbiddenError, notFoundError, unauthorizedError } from "@/errors";
 import { createRaffle } from "@/protocols";
+import planRepository from "@/repositories/plans-repository";
 import rafflesRepository from "@/repositories/raffles-repository";
 import { raffles, sellers } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
@@ -29,7 +30,7 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
 
     const sellers: Omit<sellers,'password_hash' | 'updated_at'> & { raffles: raffles[];} = 
     await rafflesRepository.findSellerAndRafflesByUserId(userId)
-    
+
     console.log(sellers)
     if(!sellers) throw notFoundError();
 
@@ -37,14 +38,15 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
         return value.total_tickets
     })
     console.log(test)
+    const planBasic = await planRepository.findPlanBasic()
 
     
-    if(sellers.plan_id === 1){
+    if(sellers.plan_id === planBasic.id){
         
         // const isDayExpired = (date: string) => dayjs().date() === dayjs(date).date() ? 
         // false : dayjs().isAfter(dayjs(date));  implementar isso na funcao onde desativa a campanha NA HORA DE BUSCAR AS CAMPANHAS
         
-        const expireAt = date.add(60, 'day').format('DD-MM-YYYY hh:mm');
+        const expireAt = date.add(planBasic.campaign_duration, 'day').format('DD-MM-YYYY hh:mm');
 
         const raffleData = {
             ...data,
@@ -55,10 +57,10 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
 
         if(!raffleData) throw notFoundError();
 
-        if(sellers.raffles.length >=1){
+        if(sellers.raffles.length >= planBasic.max_campaigns){
             throw forbiddenError("You need to change plans to perform this action (raffles length).")
         }
-        if(raffleData.total_tickets > 100){
+        if(raffleData.total_tickets > planBasic.max_tickets){
             throw forbiddenError("You need to change plans to perform this action (tickets).")
         }
 
