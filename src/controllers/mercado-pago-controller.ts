@@ -14,8 +14,12 @@ async function paymentPix(res:Response, body:payment_body, userId: number, next:
     var mercadopago = require('mercadopago');
     mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
     
+    const decimalPrice = body.value;
+    const numberPrice = decimalPrice.toNumber();
+
+
     var payment_data = {
-      transaction_amount: body.value,
+      transaction_amount: numberPrice,
       description: body.name_plan,
       payment_method_id: 'pix',
       date_of_expiration: expireAt,
