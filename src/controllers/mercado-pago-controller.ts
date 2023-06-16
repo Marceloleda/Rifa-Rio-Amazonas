@@ -23,15 +23,6 @@ async function paymentPix(res:Response, body:payment_body, userId: number, next:
       description: body.name_plan,
       payment_method_id: 'pix',
       date_of_expiration: expireAt,
-      additional_info: {
-        items:[
-        {
-          id: body.plan_id,
-          title: body.name_plan
-        }
-      ]
-          
-      },
       payer: {
         email: body.email,
         first_name: body.name_user,
@@ -45,7 +36,7 @@ async function paymentPix(res:Response, body:payment_body, userId: number, next:
     try{
       const payment = await mercadopago.payment.create(payment_data)
       if(payment){
-        await mercadoPagoService.createPaymentPlan(payment.body, userId, next)
+        await mercadoPagoService.createPaymentPlan(body, payment.body, userId, next)
         console.log("payment created")
       }
       return res.send(payment.body)

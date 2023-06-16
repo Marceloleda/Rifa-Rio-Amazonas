@@ -1,16 +1,17 @@
 import { notFoundError, unauthorizedError } from "@/errors";
+import { payment_body } from "@/protocols";
 import mercadoPagoRepository from "@/repositories/payments-plan-repository";
 import { config } from "dotenv";
 import { NextFunction} from "express";
 
 config();
 
-async function createPaymentPlan( payment: any, userId: number, next: NextFunction) {
+async function createPaymentPlan( body: payment_body, payment: any, userId: number, next: NextFunction) {
   try {
     if (!userId) throw unauthorizedError();
 
     if (!payment) throw notFoundError();
-    const createDataPaymentPlan = await mercadoPagoRepository.create(payment, userId)
+    const createDataPaymentPlan = await mercadoPagoRepository.create(body.plan_id,payment, userId)
 
     if (createDataPaymentPlan) {
     

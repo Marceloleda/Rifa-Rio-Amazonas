@@ -1,6 +1,6 @@
 import { prisma } from "@/config";
 
-async function create(payment:any, id: number) {
+async function create(id_plan: number,payment:any, id: number) {
     const paymentId = payment.id;
   const paymentIdString = paymentId.toString();
     return await prisma.payments_plan.create({
@@ -8,7 +8,7 @@ async function create(payment:any, id: number) {
             seller_id: id,
             payment_id: paymentIdString,
             status_payment: payment.status,
-            plan_id: payment.additional_info.plan_id,
+            plan_id: id_plan,
             name_plan: payment.description
         }
 

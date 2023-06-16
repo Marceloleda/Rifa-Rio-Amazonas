@@ -11,7 +11,7 @@ async function updatePlanByIdPayment(payment: any){
     return prisma.sellers.update({
         where: {id: payment.seller_id},
         data: {
-            plan_id: payment.additional_info.plan_id
+            plan_id: payment.plan_id
         }
     })
 }
