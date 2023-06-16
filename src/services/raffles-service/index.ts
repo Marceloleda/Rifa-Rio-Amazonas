@@ -29,7 +29,8 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
 
     const sellers: Omit<sellers,'password_hash' | 'updated_at'> & { raffles: raffles[];} = 
     await rafflesRepository.findSellerAndRafflesByUserId(userId)
-
+    
+    console.log(sellers)
     if(!sellers) throw notFoundError();
 
     const test = sellers.raffles.map((value)=>{
