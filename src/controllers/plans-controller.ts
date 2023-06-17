@@ -26,3 +26,16 @@ export async function premiumPlan(req: AuthenticatedRequest, res: Response, next
         next(error)
     }
 }
+
+export async function masterRafflePlan(req: AuthenticatedRequest, res: Response, next:NextFunction){
+    const {userId} = req
+    console.log("master raffle plan")
+
+    try{
+        const paymentCreated = await planService.createPaymentToMasterRaffle(res, userId, next);
+        return res.status(httpStatus.OK).send(paymentCreated);
+    }catch(error){
+        console.log(error.message)
+        next(error)
+    }
+}

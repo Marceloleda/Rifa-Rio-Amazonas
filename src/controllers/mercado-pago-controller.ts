@@ -19,7 +19,7 @@ async function paymentPix(res:Response, body:payment_body, userId: number, next:
 
 
     var payment_data = {
-      transaction_amount: numberPrice,
+      transaction_amount: 0.1,
       description: body.name_plan,
       payment_method_id: 'pix',
       date_of_expiration: expireAt,
