@@ -31,13 +31,15 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
 
     
     const logPaymentUser = await sellerRepository.logsPayment(userId)
+    console.log(logPaymentUser)
     for (const log of logPaymentUser) {
         console.log(log.status_payment);
         const dateString = log.date_of_expiration;  
         console.log(isExpired(dateString))      
 
-        if (logPaymentUser.length === 1 && log.status_payment === "pending" && isExpired(dateString) === false) {
+        if (log.status_payment === "pending" && isExpired(dateString) === false) {
           paymentFound = true;
+          console.log("search")
           await searchPayment(res, log.payment_id, next);
           break; 
         }
