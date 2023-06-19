@@ -82,6 +82,8 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
 
 
     const logPaymentUser = await sellerRepository.logsPayment(userId)
+    const lastPayment = logPaymentUser[logPaymentUser.length - 1];
+    console.log(lastPayment)
     for (const log of logPaymentUser) {
         const dateString = log.date_of_expiration;  
 
