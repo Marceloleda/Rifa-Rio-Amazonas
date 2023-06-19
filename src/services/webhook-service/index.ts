@@ -30,7 +30,7 @@ async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction)
     return status_payment;
   } catch (error) {
     console.log(error.message);
-    next(error);
+    return next(error);
   }
 }
 

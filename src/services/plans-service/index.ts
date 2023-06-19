@@ -19,32 +19,14 @@ async function searchPayment(res: Response, payment_id: string, next: NextFuncti
     }
 }
 function isExpired(dateString: string) {
-
     const currentDate = dayjs();
     const expirationDate = dayjs(dateString, "YYYY-MM-DDTHH:mm:ss.SSSZ");
     return expirationDate.isBefore(currentDate);
-  }
+}
 
 async function createPaymentToBasic(res: Response, userId: number, next: NextFunction) {
     let paymentFound = false;
     const user = await sellerRepository.findByUserId(userId)
-
-    
-    const logPaymentUser = await sellerRepository.logsPayment(userId)
-    console.log(logPaymentUser)
-    for (const log of logPaymentUser) {
-        console.log(log.status_payment);
-        const dateString = log.date_of_expiration;  
-        console.log(isExpired(dateString))      
-
-        if (log.status_payment === "pending" && isExpired(dateString) === false) {
-          paymentFound = true;
-          console.log("search")
-          await searchPayment(res, log.payment_id, next);
-          break; 
-        }
-    }
-
     const planBasic = await planRepository.findPlanBasic()
 
     if(!userId) throw unauthorizedError()
@@ -59,6 +41,17 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
         email: user.email,
         cpf: user.cpf
     }
+    const logPaymentUser = await sellerRepository.logsPayment(userId)
+    for (const log of logPaymentUser) {
+        const dateString = log.date_of_expiration;  
+
+        if (log.status_payment === "pending" && isExpired(dateString) === false) {
+          paymentFound = true;
+          console.log("search")
+          await searchPayment(res, log.payment_id, next);
+          break; 
+        }
+    }
     try{
         if (!paymentFound) {
             await mercadoPago.paymentPix(res, body, userId, next)
@@ -66,12 +59,13 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
     }
     catch(error){
         console.log(error.message)
-        next(error);
+        return next(error);
     }
 }
 
 
 async function createPaymentToPremium(res: Response, userId: number, next: NextFunction) {
+    let paymentFound = false;
     const user = await sellerRepository.findByUserId(userId)
     if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
@@ -86,16 +80,33 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
         cpf: user.cpf
     }
 
+
+    const logPaymentUser = await sellerRepository.logsPayment(userId)
+    for (const log of logPaymentUser) {
+        const dateString = log.date_of_expiration;  
+
+        if (log.status_payment === "pending" && isExpired(dateString) === false) {
+          paymentFound = true;
+          console.log("search")
+          await searchPayment(res, log.payment_id, next);
+          break; 
+        }
+    }
+
     try{
-        const payment = await mercadoPago.paymentPix(res, body, userId, next)
-        return payment
+        if (!paymentFound){
+            const payment = await mercadoPago.paymentPix(res, body, userId, next)
+            return payment
+        }
     }
     catch(error){
         console.log(error.message)
-        next(error);
+        return next(error);
     }
 }
 async function createPaymentToMasterRaffle(res: Response, userId: number, next: NextFunction) {
+    let paymentFound = false;
+
     const user = await sellerRepository.findByUserId(userId)
     if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
@@ -110,13 +121,27 @@ async function createPaymentToMasterRaffle(res: Response, userId: number, next: 
         cpf: user.cpf
     }
 
+    const logPaymentUser = await sellerRepository.logsPayment(userId)
+    for (const log of logPaymentUser) {
+        const dateString = log.date_of_expiration;  
+
+        if (log.status_payment === "pending" && isExpired(dateString) === false) {
+          paymentFound = true;
+          console.log("search")
+          await searchPayment(res, log.payment_id, next);
+          break; 
+        }
+    }
+
     try{
-        const payment = await mercadoPago.paymentPix(res, body, userId, next)
-        return payment
+        if (!paymentFound){
+            const payment = await mercadoPago.paymentPix(res, body, userId, next)
+            return payment
+        }
     }
     catch(error){
         console.log(error.message)
-        next(error);
+        return next(error);
     }
 }
 const planService = {
