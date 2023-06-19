@@ -18,18 +18,28 @@ async function searchPayment(res: Response, payment_id: string, next: NextFuncti
         next(error);
     }
 }
+function isExpired(dateString: string) {
+
+    const currentDate = dayjs();
+    const expirationDate = dayjs(dateString, "YYYY-MM-DDTHH:mm:ss.SSSZ");
+    return expirationDate.isBefore(currentDate);
+  }
 
 async function createPaymentToBasic(res: Response, userId: number, next: NextFunction) {
     let paymentFound = false;
     const user = await sellerRepository.findByUserId(userId)
+
+    
     const logPaymentUser = await sellerRepository.logsPayment(userId)
     for (const log of logPaymentUser) {
         console.log(log.status_payment);
-      
-        if (logPaymentUser.length === 1 && log.status_payment === "pending") {
+        const dateString = log.date_of_expiration;  
+        console.log(isExpired(dateString))      
+
+        if (logPaymentUser.length === 1 && log.status_payment === "pending" && isExpired(dateString) === false) {
           paymentFound = true;
           await searchPayment(res, log.payment_id, next);
-          break; // Interrompe o loop quando um pagamento pendente é encontrado
+          break; 
         }
     }
 

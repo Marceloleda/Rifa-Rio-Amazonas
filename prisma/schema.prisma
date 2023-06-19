@@ -79,16 +79,17 @@ model sellers {
 }
 
 model payments_plan {
-  id             Int      @id @default(autoincrement())
-  seller_id      Int
-  payment_id     String   @unique(map: "unique_payment_id") @db.VarChar(255)
-  status_payment String   @db.VarChar(255)
-  created_at     DateTime @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime @default(now()) @db.Timestamptz(6)
-  plan_id        Int?
-  name_plan      String?  @db.VarChar(255)
-  plans          plans?   @relation(fields: [plan_id], references: [id], onDelete: Cascade, map: "fk_payments_plan_plans")
-  sellers        sellers  @relation(fields: [seller_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "payments_plan_new_seller_id_fkey")
+  id                 Int      @id @default(autoincrement())
+  seller_id          Int
+  payment_id         String   @unique(map: "unique_payment_id") @db.VarChar(255)
+  status_payment     String   @db.VarChar(255)
+  created_at         String   @db.VarChar(255)
+  updated_at         DateTime @default(now()) @db.Timestamptz(6)
+  plan_id            Int?
+  name_plan          String?  @db.VarChar(255)
+  date_of_expiration String?  @db.VarChar(255)
+  plans              plans?   @relation(fields: [plan_id], references: [id], onDelete: Cascade, map: "fk_payments_plan_plans")
+  sellers            sellers  @relation(fields: [seller_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "payments_plan_new_seller_id_fkey")
 }
 
 model plans {
