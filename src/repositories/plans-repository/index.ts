@@ -18,11 +18,17 @@ async function findPlanMegaRifa() {
 async function findAllPlans() {
     return await prisma.plans.findMany()
 }
+async function findPlanById(userPlan: any) {
+    return await prisma.plans.findUnique({
+        where:{id:userPlan.plan_id}
+    })
+}
 const planRepository = {
     findPlanBasic,
     findPlanPremium,
     findPlanMegaRifa,
-    findAllPlans
+    findAllPlans,
+    findPlanById
 }
 
 export default planRepository;

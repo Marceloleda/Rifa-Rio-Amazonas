@@ -1,4 +1,5 @@
 import { prisma } from "@/config";
+import { plans } from "@prisma/client";
 
 async function findByIdPurchase(paymentId: string){
     return prisma.payments_plan.findUnique({
@@ -7,11 +8,12 @@ async function findByIdPurchase(paymentId: string){
         }
     })
 }
-async function updatePlanByIdPayment(payment: any){
+async function updatePlanByIdPayment(payment: any, plan: plans){
     return prisma.sellers.update({
         where: {id: payment.seller_id},
         data: {
-            plan_id: payment.plan_id
+            plan_id: payment.plan_id,
+            total_ticket_plan: plan.max_tickets
         }
     })
 }

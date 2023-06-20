@@ -1,4 +1,5 @@
 import { notFoundError } from "@/errors";
+import planRepository from "@/repositories/plans-repository";
 import webhookRepository from "@/repositories/webhook-repository";
 import { config } from "dotenv";
 import { NextFunction} from "express";
@@ -15,11 +16,15 @@ async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction)
     if (!payment) throw notFoundError();
   
     const status_payment = payment.body.status;
+    const plans = await planRepository.findAllPlans()
+
     console.log(status_payment)
     if (status_payment === "approved") {
       const userPlan = await webhookRepository.findByIdPurchase(idPayment)
+      
       await webhookRepository.updateByIdStatus(idPayment)
-      await webhookRepository.updatePlanByIdPayment(userPlan)
+      const plan = await planRepository.findPlanById(userPlan)
+      await webhookRepository.updatePlanByIdPayment(userPlan, plan)
       return 
     }
     if (status_payment === "cancelled") {
