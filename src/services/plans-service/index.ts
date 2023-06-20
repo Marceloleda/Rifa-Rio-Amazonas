@@ -37,19 +37,20 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
         cpf: user.cpf
     }
     const logPaymentUser = await sellerRepository.logsPayment(userId)
-    for (const log of logPaymentUser) {
-        const dateString = log.date_of_expiration;  
+    const lastPayment = logPaymentUser[logPaymentUser.length - 1];
+    console.log(lastPayment)
+    const dateString = lastPayment.date_of_expiration;  
 
-        if (log.status_payment === "pending" && isExpired(dateString) === false) {
-          paymentFound = true;
-          console.log("search")
-          await searchPayment(res, log.payment_id);
-          break; 
-        }
-    }
     try{
+        if(lastPayment.status_payment === "pending" && isExpired(dateString) === false && lastPayment.plan_id === planBasic.id) {
+            paymentFound = true;
+            console.log("search plan")
+            const paymentPlan = await searchPayment(res, lastPayment.payment_id);
+            return paymentPlan
+        }
         if (!paymentFound) {
-            await mercadoPago.paymentPix(res, body, userId, next)
+            const payment = await mercadoPago.paymentPix(res, body, userId, next)
+            return payment
         }
     }
     catch(error){
@@ -57,7 +58,6 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
         next(error);
     }
 }
-
 
 async function createPaymentToPremium(res: Response, userId: number, next: NextFunction) {
     let paymentFound = false;
@@ -88,7 +88,6 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
             return paymentPlan
         }
     
-
         if (!paymentFound){
             const payment = await mercadoPago.paymentPix(res, body, userId, next)
             return payment
@@ -117,18 +116,18 @@ async function createPaymentToMasterRaffle(res: Response, userId: number, next: 
     }
 
     const logPaymentUser = await sellerRepository.logsPayment(userId)
-    for (const log of logPaymentUser) {
-        const dateString = log.date_of_expiration;  
-
-        if (log.status_payment === "pending" && isExpired(dateString) === false) {
-          paymentFound = true;
-          console.log("search")
-          await searchPayment(res, log.payment_id);
-          break; 
-        }
-    }
+    const lastPayment = logPaymentUser[logPaymentUser.length - 1];
+    console.log(lastPayment)
+    const dateString = lastPayment.date_of_expiration;  
 
     try{
+        if(lastPayment.status_payment === "pending" && isExpired(dateString) === false && lastPayment.plan_id === planMaster.id) {
+            paymentFound = true;
+            console.log("search plan")
+            const paymentPlan = await searchPayment(res, lastPayment.payment_id);
+            return paymentPlan
+        }
+
         if (!paymentFound){
             const payment = await mercadoPago.paymentPix(res, body, userId, next)
             return payment

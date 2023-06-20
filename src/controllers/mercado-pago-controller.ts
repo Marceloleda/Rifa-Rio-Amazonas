@@ -4,6 +4,7 @@ import { payment_body } from "@/protocols";
 import dayjs from "dayjs";
 import { unauthorizedError } from "@/errors";
 import mercadoPagoService from "@/services/mercado-pago-service";
+import httpStatus from "http-status";
 config();
 
 async function paymentPix(res:Response, body:payment_body, userId: number, next: NextFunction) {
@@ -39,7 +40,7 @@ async function paymentPix(res:Response, body:payment_body, userId: number, next:
         await mercadoPagoService.createPaymentPlan(body, payment.body, userId, next)
         console.log("payment created")
       }
-      return res.send(payment.body)
+      return payment.body;
     }
     catch(error) {
       console.log("failed payment creation")
