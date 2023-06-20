@@ -10,7 +10,7 @@ async function searchPayment(res: Response, payment_id: string) {
     var mercadopago = require('mercadopago');
     mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
     const searchResult = await mercadopago.payment.get(payment_id);
-    return res.status(httpStatus.OK).send(searchResult.body)
+    return searchResult.body
 }
 
 function isExpired(dateString: string) {
@@ -84,7 +84,8 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
         if (lastPayment.status_payment === "pending" && isExpired(dateString) === false && lastPayment.plan_id === planPremium.id) {
             paymentFound = true;
             console.log("search plan")
-            await searchPayment(res, lastPayment.payment_id);
+            const paymentPlan = await searchPayment(res, lastPayment.payment_id);
+            return res.status(httpStatus.OK).send(paymentPlan)
         }
     
 
