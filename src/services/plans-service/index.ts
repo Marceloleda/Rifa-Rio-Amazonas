@@ -38,13 +38,11 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
     }
     const logPaymentUser = await sellerRepository.logsPayment(userId)
     const lastPayment = logPaymentUser[logPaymentUser.length - 1];
-    console.log(lastPayment)
     const dateString = lastPayment.date_of_expiration;  
 
     try{
         if(lastPayment.status_payment === "pending" && isExpired(dateString) === false && lastPayment.plan_id === planBasic.id) {
             paymentFound = true;
-            console.log("search plan")
             const paymentPlan = await searchPayment(res, lastPayment.payment_id);
             return paymentPlan
         }
@@ -77,13 +75,11 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
 
     const logPaymentUser = await sellerRepository.logsPayment(userId)
     const lastPayment = logPaymentUser[logPaymentUser.length - 1];
-    console.log(lastPayment)
     const dateString = lastPayment.date_of_expiration;  
 
     try{
         if(lastPayment.status_payment === "pending" && isExpired(dateString) === false && lastPayment.plan_id === planPremium.id) {
             paymentFound = true;
-            console.log("search plan")
             const paymentPlan = await searchPayment(res, lastPayment.payment_id);
             return paymentPlan
         }
@@ -117,13 +113,11 @@ async function createPaymentToMasterRaffle(res: Response, userId: number, next: 
 
     const logPaymentUser = await sellerRepository.logsPayment(userId)
     const lastPayment = logPaymentUser[logPaymentUser.length - 1];
-    console.log(lastPayment)
     const dateString = lastPayment.date_of_expiration;  
 
     try{
         if(lastPayment.status_payment === "pending" && isExpired(dateString) === false && lastPayment.plan_id === planMaster.id) {
             paymentFound = true;
-            console.log("search plan")
             const paymentPlan = await searchPayment(res, lastPayment.payment_id);
             return paymentPlan
         }
