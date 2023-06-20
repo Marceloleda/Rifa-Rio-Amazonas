@@ -34,13 +34,14 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
     console.log(sellers)
     if(!sellers) throw notFoundError();
 
-    const test = sellers.raffles.map((value)=>{
-        return value.total_tickets
-    })
-    console.log(test)
+    // const test = sellers.raffles.map((value)=>{
+    //     return value.total_tickets
+    // })
     const planBasic = await planRepository.findPlanBasic()
+    const planPremium = await planRepository.findPlanPremium()
+    const planMaster = await planRepository.findPlanMegaRifa()
 
-    
+    //plano Basico
     if(sellers.plan_id === planBasic.id){
         
         // const isDayExpired = (date: string) => dayjs().date() === dayjs(date).date() ? 
@@ -69,7 +70,8 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
         return raffleCreated 
     }
 
-    if(sellers.plan_id === 2){
+    //plano Premium
+    if(sellers.plan_id === planPremium.id){
         
         // const isDayExpired = (date: string) => dayjs().date() === dayjs(date).date() ? 
         // false : dayjs().isAfter(dayjs(date));  implementar isso na funcao onde desativa a campanha NA HORA DE BUSCAR AS CAMPANHAS

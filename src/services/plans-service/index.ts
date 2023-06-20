@@ -61,9 +61,11 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
 async function createPaymentToPremium(res: Response, userId: number, next: NextFunction) {
     let paymentFound = false;
     const user = await sellerRepository.findByUserId(userId)
+    const planPremium = await planRepository.findPlanPremium()
     if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
-    const planPremium = await planRepository.findPlanPremium()
+    if(user.plan_id === planPremium.id) throw notModifiedError()
+
 
     const body = {
         plan_id:planPremium.id,
@@ -98,11 +100,13 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
 }
 async function createPaymentToMasterRaffle(res: Response, userId: number, next: NextFunction) {
     let paymentFound = false;
-
     const user = await sellerRepository.findByUserId(userId)
+    const planMaster = await planRepository.findPlanMegaRifa()
+
     if(!userId) throw unauthorizedError()
     if(!user) throw notFoundError()
-    const planMaster = await planRepository.findPlanMegaRifa()
+    if(user.plan_id === planMaster.id) throw notModifiedError()
+
 
     const body = {
         plan_id:planMaster.id,
