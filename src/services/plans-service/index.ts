@@ -84,16 +84,14 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
     const logPaymentUser = await sellerRepository.logsPayment(userId)
     const lastPayment = logPaymentUser[logPaymentUser.length - 1];
     console.log(lastPayment)
-    for (const log of logPaymentUser) {
-        const dateString = log.date_of_expiration;  
+    const dateString = lastPayment.date_of_expiration;  
 
-        if (log.status_payment === "pending" && isExpired(dateString) === false) {
-          paymentFound = true;
-          console.log("search")
-          await searchPayment(res, log.payment_id, next);
-          break; 
-        }
+    if (lastPayment.status_payment === "pending" && isExpired(dateString) === false) {
+        paymentFound = true;
+        console.log("search")
+        return await searchPayment(res, lastPayment.payment_id, next);
     }
+    
 
     try{
         if (!paymentFound){
