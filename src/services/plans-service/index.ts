@@ -81,11 +81,11 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
     const dateString = lastPayment.date_of_expiration;  
 
     try{
-        if (lastPayment.status_payment === "pending" && isExpired(dateString) === false && lastPayment.plan_id === planPremium.id) {
+        if(lastPayment.status_payment === "pending" && isExpired(dateString) === false && lastPayment.plan_id === planPremium.id) {
             paymentFound = true;
             console.log("search plan")
             const paymentPlan = await searchPayment(res, lastPayment.payment_id);
-            return res.status(httpStatus.OK).send(paymentPlan)
+            return paymentPlan
         }
     
 
