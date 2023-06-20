@@ -59,7 +59,7 @@ async function createPaymentToBasic(res: Response, userId: number, next: NextFun
     }
     catch(error){
         console.log(error.message)
-        return next(error);
+        next(error);
     }
 }
 
@@ -89,7 +89,7 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
     if (lastPayment.status_payment === "pending" && isExpired(dateString) === false && lastPayment.plan_id === planPremium.id) {
         paymentFound = true;
         console.log("search plan")
-        return await searchPayment(res, lastPayment.payment_id, next);
+        await searchPayment(res, lastPayment.payment_id, next);
     }
     
 
@@ -101,7 +101,7 @@ async function createPaymentToPremium(res: Response, userId: number, next: NextF
     }
     catch(error){
         console.log(error.message)
-        return next(error);
+        next(error);
     }
 }
 async function createPaymentToMasterRaffle(res: Response, userId: number, next: NextFunction) {
@@ -141,7 +141,7 @@ async function createPaymentToMasterRaffle(res: Response, userId: number, next: 
     }
     catch(error){
         console.log(error.message)
-        return next(error);
+        next(error);
     }
 }
 const planService = {
