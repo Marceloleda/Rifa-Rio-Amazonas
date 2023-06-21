@@ -32,12 +32,22 @@ async function updateTotalTickets(id:number, balance: number) {
         }
     })
 }
+async function createShuffleNumbers(id: number, shuffledArray: any, userId: number){
+    return await prisma.shuffle_numbers.create({
+        data: {
+            raffle_id: id,
+            random_numbers: shuffledArray,
+            seller_id: userId
+        }
+    })
+}
 
 
 const rafflesRepository = {
     createRaffles,
     findSellerAndRafflesByUserId,
     findRaffle,
-    updateTotalTickets
+    updateTotalTickets,
+    createShuffleNumbers
 }
 export default rafflesRepository;
