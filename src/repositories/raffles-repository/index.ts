@@ -24,10 +24,20 @@ async function findRaffle(id:number) {
     })
 }
 
+async function updateTotalTickets(id:number, balance: number) {
+    return await prisma.sellers.update({
+        where: {id},
+        data:{
+            total_ticket_plan: balance
+        }
+    })
+}
+
 
 const rafflesRepository = {
     createRaffles,
     findSellerAndRafflesByUserId,
-    findRaffle
+    findRaffle,
+    updateTotalTickets
 }
 export default rafflesRepository;

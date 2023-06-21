@@ -31,12 +31,8 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
     const sellers: Omit<sellers,'password_hash' | 'updated_at'> & { raffles: raffles[];} = 
     await rafflesRepository.findSellerAndRafflesByUserId(userId)
 
-    console.log(sellers)
     if(!sellers) throw notFoundError();
 
-    // const test = sellers.raffles.map((value)=>{
-    //     return value.total_tickets
-    // })
     const planBasic = await planRepository.findPlanBasic()
     const planPremium = await planRepository.findPlanPremium()
     const planMaster = await planRepository.findPlanMegaRifa()
@@ -52,18 +48,18 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
         const raffleData = {
             ...data,
             seller_id: userId,
-            available_tickets: data.total_tickets,
             expire_at: expireAt
         };
-
         if(!raffleData) throw notFoundError();
 
+        if(raffleData.total_tickets > sellers.total_ticket_plan){
+            throw forbiddenError("You need to change plans to perform this action (tickets).")
+        }
         if(sellers.raffles.length >= planBasic.max_campaigns){
             throw forbiddenError("You need to change plans to perform this action (raffles length).")
         }
-        if(raffleData.total_tickets > planBasic.max_tickets){
-            throw forbiddenError("You need to change plans to perform this action (tickets).")
-        }
+        const balance: number = sellers.total_ticket_plan - raffleData.total_tickets
+        await rafflesRepository.updateTotalTickets(userId,balance)
 
         const raffleCreated = await rafflesRepository.createRaffles(raffleData)
     
@@ -72,29 +68,49 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
 
     //plano Premium
     if(sellers.plan_id === planPremium.id){
-        
-        // const isDayExpired = (date: string) => dayjs().date() === dayjs(date).date() ? 
-        // false : dayjs().isAfter(dayjs(date));  implementar isso na funcao onde desativa a campanha NA HORA DE BUSCAR AS CAMPANHAS
-        
-        const expireAt = date.add(70, 'day').format('DD-MM-YYYY hh:mm');
+       
+        const expireAt = date.add(planPremium.campaign_duration, 'day').format('DD-MM-YYYY hh:mm');
 
         const raffleData = {
             ...data,
             seller_id: userId,
-            available_tickets: data.total_tickets,
             expire_at: expireAt
         };
 
         if(!raffleData) throw notFoundError();
 
-        if(sellers.raffles.length >=3){
-            throw forbiddenError("You need to change plans to perform this action (raffles length).")
-        }
-        if(raffleData.total_tickets > 1000){
+        if(raffleData.total_tickets > sellers.total_ticket_plan){
             throw forbiddenError("You need to change plans to perform this action (tickets).")
         }
+        if(sellers.raffles.length >= planPremium.max_campaigns){
+            throw forbiddenError("You need to change plans to perform this action (raffles length).")
+        }
        
+        const raffleCreated = await rafflesRepository.createRaffles(raffleData)
+    
+        return raffleCreated 
+    }
 
+    //plano Master
+    if(sellers.plan_id === planMaster.id){
+            
+        const expireAt = date.add(planMaster.campaign_duration, 'day').format('DD-MM-YYYY hh:mm');
+
+        const raffleData = {
+            ...data,
+            seller_id: userId,
+            expire_at: expireAt
+        };
+
+        if(!raffleData) throw notFoundError();
+
+        if(raffleData.total_tickets > sellers.total_ticket_plan){
+            throw forbiddenError("You need to change plans to perform this action (tickets).")
+        }
+        if(sellers.raffles.length >= planMaster.max_campaigns){
+            throw forbiddenError("You need to change plans to perform this action (raffles length).")
+        }
+       
         const raffleCreated = await rafflesRepository.createRaffles(raffleData)
     
         return raffleCreated 

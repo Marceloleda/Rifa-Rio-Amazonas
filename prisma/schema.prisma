@@ -47,19 +47,18 @@ model purchases {
 }
 
 model raffles {
-  id                Int       @id @default(autoincrement())
-  seller_id         Int
-  title             String    @db.VarChar(255)
-  description       String
-  ticket_price      Decimal   @db.Decimal(10, 2)
-  available_tickets Int
-  total_tickets     Int
-  start_date        DateTime  @default(now()) @db.Timestamptz(6)
-  end_date          DateTime? @db.Timestamptz(6)
-  created_at        DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at        DateTime  @default(now()) @db.Timestamptz(6)
-  expire_at         String?   @db.VarChar(255)
-  sellers           sellers   @relation(fields: [seller_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_raffles_sellers")
+  id            Int       @id @default(autoincrement())
+  seller_id     Int
+  title         String    @db.VarChar(255)
+  description   String
+  ticket_price  Decimal   @db.Decimal(10, 2)
+  total_tickets Int
+  start_date    DateTime  @default(now()) @db.Timestamptz(6)
+  end_date      DateTime? @db.Timestamptz(6)
+  created_at    DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime  @default(now()) @db.Timestamptz(6)
+  expire_at     String?   @db.VarChar(255)
+  sellers       sellers   @relation(fields: [seller_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_raffles_sellers")
 }
 
 model sellers {
