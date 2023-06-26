@@ -1,4 +1,5 @@
 import { prisma } from "@/config";
+import { plans } from "@prisma/client";
 
 async function findPlanBasic() {
     return await prisma.plans.findUnique({
@@ -15,7 +16,7 @@ async function findPlanMegaRifa() {
         where:{name: 'Plano Mega Rifa'}
     })
 }
-async function findAllPlans() {
+async function findAllPlans(): Promise<any> {
     return await prisma.plans.findMany()
 }
 async function findPlanById(userPlan: any) {

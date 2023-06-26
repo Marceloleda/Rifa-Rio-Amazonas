@@ -2,6 +2,7 @@ import mercadoPago from "@/controllers/mercado-pago-controller";
 import { conflictError, notFoundError, notModifiedError, unauthorizedError } from "@/errors";
 import planRepository from "@/repositories/plans-repository";
 import sellerRepository from "@/repositories/sellers-repository";
+import { plans } from "@prisma/client";
 import dayjs from "dayjs";
 import { NextFunction, Response } from "express";
 import httpStatus from "http-status";
@@ -138,9 +139,15 @@ async function createPaymentToMasterRaffle(res: Response, userId: number, next: 
         next(error);
     }
 }
+async function findAllPlans(): Promise<any> {
+        const plans = await planRepository.findAllPlans()
+        if(!plans) throw notFoundError()
+        return plans
+}
 const planService = {
     createPaymentToBasic,
     createPaymentToPremium,
-    createPaymentToMasterRaffle
+    createPaymentToMasterRaffle,
+    findAllPlans
 }
 export default planService

@@ -1,6 +1,7 @@
 import { AuthenticatedRequest } from "@/middlewares";
 import planService from "@/services/plans-service";
-import { NextFunction, Response } from "express";
+import { plans } from "@prisma/client";
+import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 
 export async function basicPlan(req: AuthenticatedRequest, res: Response, next:NextFunction){
@@ -39,3 +40,15 @@ export async function masterRafflePlan(req: AuthenticatedRequest, res: Response,
         next(error)
     }
 }
+
+export async function getAllPlans(req: Request,res: Response, next: NextFunction): Promise<any> {
+    try{
+        const allPlans = await planService.findAllPlans()
+        return res.status(httpStatus.OK).send(allPlans)
+    }catch(error){
+        console.log(error.message)
+        next(error)
+    }
+
+}
+    
