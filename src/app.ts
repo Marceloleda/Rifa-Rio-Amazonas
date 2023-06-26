@@ -9,6 +9,7 @@ import {
   authenticationRouter, 
   plansRouter, 
   rafflesRouter, 
+  selllerRouter, 
   signUpRouter, 
   webhookRouter
 } from './routers';
@@ -25,6 +26,7 @@ app
   .use('/plan', plansRouter)
   .use('/plans', allPlansRouter)
   .use('/mercadopago', webhookRouter)
+  .use('/seller', selllerRouter)
   .use(handleApplicationErrors);
 
 

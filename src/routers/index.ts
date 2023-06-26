@@ -4,5 +4,6 @@ export * from './raffles-router';
 export * from './plans-router';
 export * from './webhook-router';
 export * from './all-plans-router';
+export * from './selller-router';
 
 
