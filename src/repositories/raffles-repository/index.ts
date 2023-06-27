@@ -25,7 +25,7 @@ async function findRaffle(id:number) {
 }
 async function findMyRaffles(id:number) {
     return await prisma.raffles.findMany({
-        where: {id}
+        where: {seller_id: id}
     })
 }
 
