@@ -19,7 +19,10 @@ async function findByPhone(phone: string){
 
 async function findByUserId(id: number){
     return await prisma.sellers.findUnique({
-        where: {id}
+        where: {id},
+        include: {
+            plans: true,
+        },
     })
 }
 
