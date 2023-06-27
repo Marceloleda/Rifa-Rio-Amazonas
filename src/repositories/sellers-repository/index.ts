@@ -39,6 +39,7 @@ async function logsPayment( id: number) {
         where:{seller_id: id}
     })
 }
+
 const sellerRepository = {
     findByEmail,
     findByUserId,

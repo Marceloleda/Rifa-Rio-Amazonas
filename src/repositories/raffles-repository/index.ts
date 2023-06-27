@@ -23,6 +23,11 @@ async function findRaffle(id:number) {
         where: {id}
     })
 }
+async function findMyRaffles(id:number) {
+    return await prisma.raffles.findMany({
+        where: {id}
+    })
+}
 
 async function updateTotalTickets(id:number, balance: number) {
     return await prisma.sellers.update({
@@ -48,6 +53,7 @@ const rafflesRepository = {
     findSellerAndRafflesByUserId,
     findRaffle,
     updateTotalTickets,
-    createShuffleNumbers
+    createShuffleNumbers,
+    findMyRaffles
 }
 export default rafflesRepository;

@@ -118,7 +118,14 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
         return raffleCreated 
     }
 }
+async function findCampaigns(userId: number): Promise<any> {
+    const campaigns = await rafflesRepository.findMyRaffles(userId)
+    if(!campaigns) throw notFoundError()
+    return campaigns
+}
+
 const raffleService = {
     raffleCreate,
+    findCampaigns
 };
 export default raffleService;
