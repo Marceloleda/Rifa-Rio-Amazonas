@@ -8,16 +8,6 @@ import dayjs from "dayjs";
 import { Response } from "express";
 import httpStatus from "http-status";
 
-
-function isDecimalNumber(value: any) {
-    if(!isNaN(value)) {
-        if(parseInt(value) != parseFloat(value)) {
-            return true;
-      }
-    }   
-    return false;
-}
-
 function shuffleNumber(number: number) {
     const array = [];
     
@@ -38,12 +28,6 @@ function shuffleNumber(number: number) {
 async function raffleCreate(res: Response, data:createRaffle, userId: number) { 
     const date = dayjs();
     if(!userId) throw unauthorizedError()
-      
-    const decimal: Decimal = new Decimal(data.ticket_price)
-
-    if(!isDecimalNumber(decimal)){
-        return res.status(httpStatus.BAD_REQUEST).send("Price must be a decimal")
-    }
 
     const sellers: Omit<sellers,'password_hash' | 'updated_at'> & { raffles: raffles[];} = 
     await rafflesRepository.findSellerAndRafflesByUserId(userId)
