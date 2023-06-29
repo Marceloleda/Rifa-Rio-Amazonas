@@ -46,6 +46,7 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
 
         const raffleData = {
             ...data,
+            avaliable_tickets: data.total_tickets,
             seller_id: userId,
             expire_at: expireAt
         };
@@ -72,6 +73,7 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
         const expireAt = date.add(planPremium.campaign_duration, 'day').format('DD-MM-YYYY hh:mm');
         const raffleData = {
             ...data,
+            avaliable_tickets: data.total_tickets,
             seller_id: userId,
             expire_at: expireAt
         };
@@ -96,6 +98,7 @@ async function raffleCreate(res: Response, data:createRaffle, userId: number) {
         const expireAt = date.add(planMaster.campaign_duration, 'day').format('DD-MM-YYYY hh:mm');
         const raffleData = {
             ...data,
+            avaliable_tickets: data.total_tickets,
             seller_id: userId,
             expire_at: expireAt
         };
