@@ -124,8 +124,18 @@ async function findCampaigns(userId: number): Promise<any> {
     return campaigns
 }
 
+async function findUniqueRaffle(id: number, slug: string): Promise<raffles> {
+    const raffle = await rafflesRepository.findRaffle(id)
+    if(!raffle) throw notFoundError()
+    if(slug !== raffle.title){
+        throw notFoundError()
+    }
+    return raffle
+}
+
 const raffleService = {
     raffleCreate,
-    findCampaigns
+    findCampaigns,
+    findUniqueRaffle
 };
 export default raffleService;

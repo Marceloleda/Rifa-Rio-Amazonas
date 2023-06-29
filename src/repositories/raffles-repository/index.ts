@@ -55,5 +55,6 @@ const rafflesRepository = {
     updateTotalTickets,
     createShuffleNumbers,
     findMyRaffles
+
 }
 export default rafflesRepository;

@@ -1,7 +1,7 @@
 import { AuthenticatedRequest } from "@/middlewares";
 import { createRaffle } from "@/protocols";
 import raffleService from "@/services/raffles-service";
-import { NextFunction, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 
 export async function createRaffle(req: AuthenticatedRequest, res: Response, next: NextFunction){
@@ -14,3 +14,15 @@ export async function createRaffle(req: AuthenticatedRequest, res: Response, nex
         next(error)
     }
 }
+
+export async function findRaffle(req: Request, res: Response, next: NextFunction){
+    const {id, slug} = req.params
+    const idRaffle = parseInt(id)
+    try{
+        const raffle = await raffleService.findUniqueRaffle(idRaffle, slug);
+        return res.status(httpStatus.OK).send(raffle);
+    }catch(error){
+        next(error)
+    }
+}
+
