@@ -6,8 +6,11 @@ import { createRaffle, findRaffle} from "@/controllers";
 
 const rafflesRouter = Router();
 
-rafflesRouter.all('/*', authenticateToken)
-.post('/', validateBody(raffleSchema), createRaffle)
+rafflesRouter
+.post('/',
+authenticateToken, 
+validateBody(raffleSchema), 
+authenticateToken, createRaffle)
 
 rafflesRouter.get('/:id/:slug', findRaffle)
 
