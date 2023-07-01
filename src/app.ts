@@ -6,6 +6,7 @@ import { connectDb, disconnectDB } from './config/database';
 import { handleApplicationErrors } from './middlewares';
 import { 
   authenticationRouter, 
+  buyRouter, 
   plansRouter, 
   rafflesRouter, 
   selllerRouter, 
@@ -25,6 +26,7 @@ app
   .use('/plan', plansRouter)
   .use('/mercadopago', webhookRouter)
   .use('/seller', selllerRouter)
+  .use('/buyer', buyRouter)
   .use(handleApplicationErrors);
 
 
