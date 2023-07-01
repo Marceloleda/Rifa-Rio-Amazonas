@@ -5,7 +5,6 @@ import cors from 'cors';
 import { connectDb, disconnectDB } from './config/database';
 import { handleApplicationErrors } from './middlewares';
 import { 
-  allPlansRouter,
   authenticationRouter, 
   plansRouter, 
   rafflesRouter, 
@@ -24,7 +23,6 @@ app
   .use('/sign-up', signUpRouter)
   .use('/raffle', rafflesRouter)
   .use('/plan', plansRouter)
-  .use('/plans', allPlansRouter)
   .use('/mercadopago', webhookRouter)
   .use('/seller', selllerRouter)
   .use(handleApplicationErrors);

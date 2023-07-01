@@ -1,18 +1,20 @@
 import { Router } from "express";
 import { authenticateToken } from '@/middlewares';
-import { basicPlan, masterRafflePlan, premiumPlan } from "@/controllers";
+import { basicPlan, getAllPlans, masterRafflePlan, premiumPlan } from "@/controllers";
 
 
 const plansRouter = Router();
 
-plansRouter.all('/*', authenticateToken)
-.post('/basic', basicPlan)
+plansRouter
+.post('/basic', authenticateToken, basicPlan)
 
-plansRouter.all('/*', authenticateToken)
-.post('/premium', premiumPlan)
+plansRouter
+.post('/premium', authenticateToken, premiumPlan)
 
-plansRouter.all('/*', authenticateToken)
-.post('/master', masterRafflePlan)
+plansRouter
+.post('/master', authenticateToken, masterRafflePlan)
+
+plansRouter.get('/all', getAllPlans)
 
 
 export { plansRouter}
