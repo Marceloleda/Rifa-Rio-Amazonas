@@ -24,7 +24,7 @@ async function createBuyerPayment(buyerId: number, idRaffle: number, quantity: n
             quantity_tickets: quantity,
             total_value: total,
             purchase_date: payment.date_created,
-            payment_status: payment.status
+            payment_status: payment.body.status
         }
     })
 }

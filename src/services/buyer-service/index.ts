@@ -1,10 +1,11 @@
-import { notFoundError } from "@/errors";
+import { notFoundError, unauthorizedError } from "@/errors";
 import { buyData } from "@/protocols";
 import buyerRepository from "@/repositories/buyer-repository";
 import rafflesRepository from "@/repositories/raffles-repository";
 import dayjs from "dayjs";
 import mercadoPagoService from "../mercado-pago-service";
 import { NextFunction } from "express";
+import mercadoPagoRepository from "@/repositories/payments-plan-repository";
 
 async function createPaymentToTicket(body: buyData, next: NextFunction) {
   const {idRaffle, name, email, phone_number, total, quantity} = body
@@ -28,10 +29,6 @@ async function createPaymentToTicket(body: buyData, next: NextFunction) {
 
     var mercadopago = require('mercadopago');
     mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
-    
-    // const decimalPrice = body.value;
-    // const numberPrice = decimalPrice.toNumber();
-
 
     var payment_data = {
       transaction_amount: total,
@@ -47,7 +44,11 @@ async function createPaymentToTicket(body: buyData, next: NextFunction) {
     try{
       const payment = await mercadopago.payment.create(payment_data)
       if(payment){
-        await mercadoPagoService.createPaymentBuyer(buyer.id, IdRaffle, quantity, total, payment.body, next)
+      if (!buyer.id) throw unauthorizedError();
+
+      if (!idRaffle || !quantity || !total) throw notFoundError();
+      await mercadoPagoRepository.createBuyerPayment(buyer.id, IdRaffle, quantity, total, payment)
+
         console.log("buyer payment created")
       }
       return payment.body;
