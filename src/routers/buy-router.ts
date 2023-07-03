@@ -6,7 +6,7 @@ import { buyTicket } from "@/controllers/buyer -controller";
 const buyRouter = Router();
 
 buyRouter
-.post('/buy', authenticateToken, buyTicket)
+.post('/buy', buyTicket)
 
 
 

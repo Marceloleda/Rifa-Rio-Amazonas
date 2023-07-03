@@ -21,20 +21,20 @@ model numbers_reservations {
   purchases_id     Int
   raffle_id        Int
   ticket_numbers   Int[]
-  payment_status   Boolean  @default(false)
   reservation_date DateTime @default(now()) @db.Timestamptz(6)
 
   @@index([ticket_numbers], map: "idx_purchases_ticket_numbers_gin", type: Gin)
 }
 
 model purchases {
-  id               Int      @id @default(autoincrement())
+  id               Int     @id @default(autoincrement())
   buyer_id         Int
   raffle_id        Int
   quantity_tickets Int
-  total_value      Decimal  @db.Decimal(10, 2)
-  purchase_date    DateTime @default(now()) @db.Timestamptz(6)
-  updated_at       DateTime @default(now()) @db.Timestamptz(6)
+  total_value      Decimal @db.Decimal(10, 2)
+  purchase_date    String  @default(dbgenerated("CURRENT_TIMESTAMP")) @db.VarChar(255)
+  updated_at       String  @default(dbgenerated("CURRENT_TIMESTAMP")) @db.VarChar(255)
+  payment_status   String? @db.VarChar(255)
 }
 
 model raffles {

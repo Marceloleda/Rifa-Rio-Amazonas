@@ -31,3 +31,11 @@ export type webhook_notfication = {
     type: string,
     user_id: number
 }
+export type buyData ={
+    name: string,
+    email: string,
+    phone_number: string,
+    idRaffle: string,
+    quantity: number,
+    total: number
+}

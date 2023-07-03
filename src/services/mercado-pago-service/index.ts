@@ -11,7 +11,7 @@ async function createPaymentPlan( body: payment_body, payment: any, userId: numb
     if (!userId) throw unauthorizedError();
 
     if (!payment) throw notFoundError();
-    const createDataPaymentPlan = await mercadoPagoRepository.create(body.plan_id,payment, userId)
+    const createDataPaymentPlan = await mercadoPagoRepository.createPlanPayment(body.plan_id,payment, userId)
 
     if (createDataPaymentPlan) {
     
@@ -23,10 +23,28 @@ async function createPaymentPlan( body: payment_body, payment: any, userId: numb
     next(error);
   }
 }
+async function createPaymentBuyer(buyerId:number, idRaffle: number, quantity: number, total:number,payment:any ,next: NextFunction) {
+  try {
+    if (!buyerId) throw unauthorizedError();
+
+    if (!idRaffle || !quantity || !total) throw notFoundError();
+    const createDataPaymentBuyer = await mercadoPagoRepository.createBuyerPayment(buyerId, idRaffle, quantity, total, payment)
+
+    if (createDataPaymentBuyer) {
+    
+      return createDataPaymentBuyer
+    }
+
+  } catch (error) {
+    console.log(error.message);
+    next(error);
+  }
+}
 
 
 const mercadoPagoService = {
-    createPaymentPlan
+    createPaymentPlan,
+    createPaymentBuyer
 }
 
 export default mercadoPagoService
