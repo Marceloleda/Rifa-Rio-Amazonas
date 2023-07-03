@@ -10,7 +10,7 @@ config();
 async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction) {
   try {
     if (!idPayment) throw notFoundError();
-
+    console.log(idPayment)
     const payment = await mercadopago.payment.get(idPayment);
   
     if (!payment) throw notFoundError();
