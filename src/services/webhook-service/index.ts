@@ -21,7 +21,9 @@ async function firstNumbers(quantity: number,purchaseId:number, raffleId: number
     const updatedTicketNumbers = [...findReservation.ticket_numbers, ...numbersFirst];
     await webhookRepository.updateArrayNumbersBuyer(findReservation.id, updatedTicketNumbers);
   }
-  await webhookRepository.createNumbersReservations(numbersFirst, purchaseId, raffleId, buyerId)
+  if(!findReservation){
+    await webhookRepository.createNumbersReservations(numbersFirst, purchaseId, raffleId, buyerId)
+  }
 
   // Atualiza o array no banco de dados removendo os primeiros números
   const updateShuffleNumbers = arrayEmbaralhado.slice(quantity);
