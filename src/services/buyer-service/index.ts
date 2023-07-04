@@ -22,6 +22,7 @@ async function createPaymentToTicket(body: buyData, next: NextFunction) {
       // Se nenhum comprador existir, criar um novo registro de comprador
       buyer = await buyerRepository.createBuyer( name, email, phone_number);
     }
+    
     const IdRaffle = parseInt(idRaffle)
     const raffle = await rafflesRepository.findRaffle(IdRaffle)
     const date = dayjs();

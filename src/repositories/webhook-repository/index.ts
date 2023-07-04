@@ -79,6 +79,19 @@ async function createNumbersReservations(ramdomNumbers:any, purchaseId: number, 
         }
     })
 }
+async function findBuyer(buyerId:number) {
+    return await prisma.numbers_reservations.findFirst({
+        where:{buyer_id: buyerId}
+    })
+}
+async function updateArrayNumbersBuyer(id: number, updateFirstNumbers:any) {
+    return await prisma.numbers_reservations.update({
+        where:{id},
+        data:{
+            ticket_numbers: updateFirstNumbers
+        }
+    })
+}
 const webhookRepository = {
     findByIdPurchase,
     updatePlanByIdPayment,
@@ -89,7 +102,9 @@ const webhookRepository = {
     findRandomNumbersByRaffleId,
     updateRamdomNumbers,
     createNumbersReservations,
-    updateStatusPurchases
+    updateStatusPurchases,
+    findBuyer,
+    updateArrayNumbersBuyer
 }
 
 export default webhookRepository;

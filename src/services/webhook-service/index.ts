@@ -12,10 +12,15 @@ async function firstNumbers(quantity: number,purchaseId:number, raffleId: number
   // Recupera o array do banco de dados
   const arrayNumbers = await webhookRepository.findRandomNumbersByRaffleId(raffleId);
   const arrayEmbaralhado = arrayNumbers.random_numbers[0];
-  
 
   // Obtém os primeiros números utilizando o método slice
   const numbersFirst = arrayEmbaralhado.slice(0, quantity);
+  //caso o mesmo usuario ja tenha comprado, os numeros vão ser apenas acrescentados
+  const findReservation = await webhookRepository.findBuyer(buyerId)
+  if(findReservation){
+    const updateFirstNumbers = findReservation.ticket_numbers.push(numbersFirst)
+    await webhookRepository.updateArrayNumbersBuyer(findReservation.id, updateFirstNumbers)
+  }
   await webhookRepository.createNumbersReservations(numbersFirst, purchaseId, raffleId, buyerId)
 
   // Atualiza o array no banco de dados removendo os primeiros números
@@ -39,6 +44,7 @@ async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction)
     console.log(status_payment)
     if (status_payment === "approved") {
       const userPlan = await webhookRepository.findByIdPurchase(idPayment)
+      //caso não seja um pagamento de um plao, ele verifica os pagamentos dos compradores (buyers)
       if(!userPlan){
         const buyer = await webhookRepository.findByBuyerIdPayment(idPayment)
         await webhookRepository.updateStatusBuyerPayment(idPayment)
@@ -55,11 +61,12 @@ async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction)
       return 
     }
     if (status_payment === "cancelled") {
-      const planCancelled = await webhookRepository.updateByIdStatusCanceled(idPayment)
-      if(!planCancelled){
+      const userPlan = await webhookRepository.findByIdPurchase(idPayment)
+      if(!userPlan){
         await webhookRepository.updateStatusPurchases(idPayment)
         return
       }
+      await webhookRepository.updateByIdStatusCanceled(idPayment)
       return
     }
 
