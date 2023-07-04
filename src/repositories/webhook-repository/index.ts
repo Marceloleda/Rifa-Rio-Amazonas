@@ -84,7 +84,7 @@ async function findBuyer(buyerId:number) {
         where:{buyer_id: buyerId}
     })
 }
-async function updateArrayNumbersBuyer(id: number, updateFirstNumbers:any) {
+async function updateArrayNumbersBuyer(id: number, updateFirstNumbers:string[]) {
     return await prisma.numbers_reservations.update({
         where:{id},
         data:{

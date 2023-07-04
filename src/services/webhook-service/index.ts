@@ -16,10 +16,10 @@ async function firstNumbers(quantity: number,purchaseId:number, raffleId: number
   // Obtém os primeiros números utilizando o método slice
   const numbersFirst = arrayEmbaralhado.slice(0, quantity);
   //caso o mesmo usuario ja tenha comprado, os numeros vão ser apenas acrescentados
-  const findReservation = await webhookRepository.findBuyer(buyerId)
-  if(findReservation){
-    const updateFirstNumbers = findReservation.ticket_numbers.push(numbersFirst)
-    await webhookRepository.updateArrayNumbersBuyer(findReservation.id, updateFirstNumbers)
+  const findReservation = await webhookRepository.findBuyer(buyerId);
+  if (findReservation) {
+    const updatedTicketNumbers = [...findReservation.ticket_numbers, ...numbersFirst];
+    await webhookRepository.updateArrayNumbersBuyer(findReservation.id, updatedTicketNumbers);
   }
   await webhookRepository.createNumbersReservations(numbersFirst, purchaseId, raffleId, buyerId)
 
