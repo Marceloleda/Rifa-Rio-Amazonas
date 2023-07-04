@@ -20,21 +20,22 @@ model numbers_reservations {
   buyer_id         Int
   purchases_id     Int
   raffle_id        Int
-  ticket_numbers   Int[]
+  ticket_numbers   String[]
   reservation_date DateTime @default(now()) @db.Timestamptz(6)
 
   @@index([ticket_numbers], map: "idx_purchases_ticket_numbers_gin", type: Gin)
 }
 
 model purchases {
-  id               Int     @id @default(autoincrement())
-  buyer_id         Int
-  raffle_id        Int
-  quantity_tickets Int
-  total_value      Decimal @db.Decimal(10, 2)
-  purchase_date    String  @default(dbgenerated("CURRENT_TIMESTAMP")) @db.VarChar(255)
-  updated_at       String  @default(dbgenerated("CURRENT_TIMESTAMP")) @db.VarChar(255)
-  payment_status   String? @db.VarChar(255)
+  id                 Int     @id @default(autoincrement())
+  buyer_id           Int
+  raffle_id          Int
+  quantity_tickets   Int
+  total_value        Decimal @db.Decimal(10, 2)
+  purchase_date      String  @db.VarChar(255)
+  date_of_expiration String  @db.VarChar(255)
+  payment_status     String? @db.VarChar(255)
+  payment_id         String? @unique @db.VarChar(255)
 }
 
 model raffles {
@@ -118,10 +119,8 @@ model prizes {
 model shuffle_numbers {
   id             Int      @id(map: "consult_numbers_pkey") @default(autoincrement())
   raffle_id      Int
-  random_numbers Int[]
   ticket_date    DateTime @default(now()) @db.Timestamptz(6)
   seller_id      Int?
+  random_numbers String[]
   sellers        sellers? @relation(fields: [seller_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_consult_numbers_sellers")
-
-  @@index([random_numbers], map: "idx_reserved_numbers_gin", type: Gin)
 }

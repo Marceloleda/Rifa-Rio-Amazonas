@@ -47,7 +47,7 @@ async function createPaymentToTicket(body: buyData, next: NextFunction) {
       if (!buyer.id) throw unauthorizedError();
 
       if (!idRaffle || !quantity || !total) throw notFoundError();
-      await mercadoPagoRepository.createBuyerPayment(buyer.id, IdRaffle, quantity, total, payment)
+      await mercadoPagoRepository.createBuyerPayment(buyer.id, IdRaffle, quantity, total, payment.body)
 
         console.log("buyer payment created")
       }

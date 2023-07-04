@@ -9,19 +9,20 @@ import { Response } from "express";
 import httpStatus from "http-status";
 
 function shuffleNumber(number: number) {
-    const array = [];
-    
+    const array: string[] = [];
+  
     for (let i = number; i > 0; i--) {
-        const paddedNumber = i.toString().padStart(String(number).length, '0');
-        array.push(Number(paddedNumber));
-    }
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+      const paddedNumber = i.toString().padStart(String(number).length, '0');
+      array.push(paddedNumber);
     }
   
-    return array
-}
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  
+    return array;
+  }
   
   
 

@@ -1,11 +1,30 @@
 import { notFoundError } from "@/errors";
 import planRepository from "@/repositories/plans-repository";
+import rafflesRepository from "@/repositories/raffles-repository";
 import webhookRepository from "@/repositories/webhook-repository";
 import { config } from "dotenv";
 import { NextFunction} from "express";
 var mercadopago = require('mercadopago');
 
 config();
+
+async function firstNumbers(quantity: number,purchaseId:number, raffleId: number, buyerId: number) {
+  // Recupera o array do banco de dados
+  const arrayNumbers = await webhookRepository.findRandomNumbersByRaffleId(raffleId);
+  const arrayEmbaralhado = arrayNumbers.random_numbers[0];
+  
+
+  // Obtém os primeiros números utilizando o método slice
+  const numbersFirst = arrayEmbaralhado.slice(0, quantity);
+  await webhookRepository.createNumbersReservations(numbersFirst, purchaseId, raffleId, buyerId)
+
+  // Atualiza o array no banco de dados removendo os primeiros números
+  const updateShuffleNumbers = arrayEmbaralhado.slice(quantity);
+  await webhookRepository.updateRamdomNumbers(updateShuffleNumbers, arrayNumbers.id);
+
+  // Retorna
+  return 
+}
 
 async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction) {
   try {
@@ -16,11 +35,19 @@ async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction)
     if (!payment) throw notFoundError();
   
     const status_payment = payment.body.status;
-    const plans = await planRepository.findAllPlans()
 
     console.log(status_payment)
     if (status_payment === "approved") {
       const userPlan = await webhookRepository.findByIdPurchase(idPayment)
+      if(!userPlan){
+        const buyer = await webhookRepository.findByBuyerIdPayment(idPayment)
+        await webhookRepository.updateStatusBuyerPayment(idPayment)
+        const raffle = await rafflesRepository.findRaffle(buyer.raffle_id)
+        const valueTickets = raffle.avaliable_tickets - buyer.quantity_tickets
+        await rafflesRepository.updateTicketsAvaliables(raffle.id, valueTickets)
+        firstNumbers(buyer.quantity_tickets, buyer.id, buyer.raffle_id, buyer.buyer_id)
+        return
+      }
       
       await webhookRepository.updateByIdStatus(idPayment)
       const plan = await planRepository.findPlanById(userPlan)
@@ -28,7 +55,11 @@ async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction)
       return 
     }
     if (status_payment === "cancelled") {
-      await webhookRepository.updateByIdStatusCanceled(idPayment)
+      const planCancelled = await webhookRepository.updateByIdStatusCanceled(idPayment)
+      if(!planCancelled){
+        await webhookRepository.updateStatusPurchases(idPayment)
+        return
+      }
       return
     }
 

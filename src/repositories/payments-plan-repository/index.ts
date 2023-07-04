@@ -17,14 +17,18 @@ async function createPlanPayment(id_plan: number,payment:any, id: number) {
     })
 }
 async function createBuyerPayment(buyerId: number, idRaffle: number, quantity: number, total: number, payment:any) {
+    const paymentId = payment.id;
+    const paymentIdString = paymentId.toString();
     return await prisma.purchases.create({
         data: {
             buyer_id: buyerId,
             raffle_id: idRaffle,
             quantity_tickets: quantity,
             total_value: total,
-            purchase_date: payment.date_created,
-            payment_status: payment.body.status
+            payment_status: payment.status,
+            payment_id: paymentIdString,
+            date_of_expiration: payment.date_of_expiration,
+            purchase_date: payment.date_created
         }
     })
 }
