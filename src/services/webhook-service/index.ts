@@ -11,7 +11,7 @@ config();
 async function firstNumbers(quantity: number,purchaseId:number, raffleId: number, buyerId: number) {
   // Recupera o array do banco de dados
   const arrayNumbers = await webhookRepository.findRandomNumbersByRaffleId(raffleId);
-  const arrayEmbaralhado = arrayNumbers.random_numbers[0];
+  const arrayEmbaralhado = arrayNumbers.random_numbers;
 
   // Obtém os primeiros números utilizando o método slice
   const numbersFirst = arrayEmbaralhado.slice(0, quantity);
