@@ -79,9 +79,9 @@ async function createNumbersReservations(ramdomNumbers:any, purchaseId: number, 
         }
     })
 }
-async function findBuyer(idPurchase:number) {
+async function findBuyer(buyer_id:number) {
     return await prisma.numbers_reservations.findFirst({
-        where:{purchases_id: idPurchase}
+        where:{buyer_id: buyer_id}
     })
 }
 async function updateArrayNumbersBuyer(id: number, updateFirstNumbers: string[]) {
