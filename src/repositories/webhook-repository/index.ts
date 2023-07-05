@@ -79,18 +79,18 @@ async function createNumbersReservations(ramdomNumbers:any, purchaseId: number, 
         }
     })
 }
-async function findBuyer(purchaseId:number) {
+async function findBuyer(idPurchase:number) {
     return await prisma.numbers_reservations.findFirst({
-        where:{purchases_id: purchaseId}
+        where:{purchases_id: idPurchase}
     })
 }
-async function updateArrayNumbersBuyer(id: number, updateFirstNumbers:string[]) {
+async function updateArrayNumbersBuyer(id: number, updateFirstNumbers: string[]) {
     return await prisma.numbers_reservations.update({
-        where:{id},
-        data:{
-            ticket_numbers: updateFirstNumbers
-        }
-    })
+      where: { id: id },
+      data: {
+        ticket_numbers: updateFirstNumbers
+      }
+    });
 }
 const webhookRepository = {
     findByIdPurchase,
