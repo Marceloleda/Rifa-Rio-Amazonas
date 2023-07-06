@@ -8,23 +8,22 @@ var mercadopago = require('mercadopago');
 
 config();
 
-async function firstNumbers(quantity: number, purchaseId: number, raffleId: number, buyerId: number) {
+async function firstNumbers(quantity: number,purchaseId:number, raffleId: number, buyerId: number) {
   // Recupera o array do banco de dados
   const arrayNumbers = await webhookRepository.findRandomNumbersByRaffleId(raffleId);
   const arrayEmbaralhado = arrayNumbers.random_numbers;
 
   // Obtém os primeiros números utilizando o método slice
   const numbersFirst = arrayEmbaralhado.slice(0, quantity);
+  //caso o mesmo usuario ja tenha comprado, os numeros vão ser apenas acrescentados
+  const findReservation = await webhookRepository.findBuyer(buyerId);
 
-  // Verifica se o comprador já possui um registro de reserva para a rifa correta
-  const findReservation = await webhookRepository.findBuyer(purchaseId);
-  if (findReservation && findReservation.raffle_id === raffleId) {
-    // Se o comprador já possui um registro de reserva na rifa correta, adiciona os números ao array existente
+  if(findReservation && findReservation.raffle_id === raffleId) {
     const updatedTicketNumbers = [...findReservation.ticket_numbers, ...numbersFirst];
     await webhookRepository.updateArrayNumbersBuyer(findReservation.id, updatedTicketNumbers);
-  } else {
-    // Se o comprador não possui um registro de reserva na rifa correta, cria um novo registro
-    await webhookRepository.createNumbersReservations(numbersFirst, purchaseId, raffleId, buyerId);
+  }
+  else{
+    await webhookRepository.createNumbersReservations(numbersFirst, purchaseId, raffleId, buyerId)
   }
 
   // Atualiza o array no banco de dados removendo os primeiros números
@@ -32,7 +31,7 @@ async function firstNumbers(quantity: number, purchaseId: number, raffleId: numb
   await webhookRepository.updateRamdomNumbers(updateShuffleNumbers, arrayNumbers.id);
 
   // Retorna
-  return;
+  return 
 }
 
 async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction) {
