@@ -26,3 +26,14 @@ export async function findRaffle(req: Request, res: Response, next: NextFunction
     }
 }
 
+export async function deleteRaffle(req: AuthenticatedRequest, res: Response, next: NextFunction){
+    const {id} = req.params
+    const {userId} = req
+    try{
+         await raffleService.deleteRaffles(userId, id);
+        return res.sendStatus(httpStatus.OK);
+    }catch(error){
+        next(error)
+    }
+}
+

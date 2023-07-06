@@ -137,10 +137,22 @@ async function findUniqueRaffle(id: number, slug: string): Promise<raffles> {
     }
     return raffle
 }
+async function deleteRaffles(userId: number, id: string): Promise<any> {
+    if(!userId || !id) throw notFoundError()
+    const idRaffle = parseInt(id)
+    const raffle = await rafflesRepository.findRaffle(idRaffle)
+    if(!raffle) throw notFoundError()
+    if(raffle.seller_id !== userId) throw unauthorizedError()
+
+
+    const deleted = await rafflesRepository.deleteMyRaffle(idRaffle)
+    return deleted
+}
 
 const raffleService = {
     raffleCreate,
     findCampaigns,
-    findUniqueRaffle
+    findUniqueRaffle,
+    deleteRaffles
 };
 export default raffleService;

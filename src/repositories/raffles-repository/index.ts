@@ -54,7 +54,11 @@ async function createShuffleNumbers(id: number, shuffledArray: any, userId: numb
         }
     })
 }
-
+async function deleteMyRaffle(id:number) {
+    return await prisma.raffles.delete({
+        where: {id}
+    })
+}
 
 const rafflesRepository = {
     createRaffles,
@@ -63,7 +67,8 @@ const rafflesRepository = {
     updateTotalTickets,
     createShuffleNumbers,
     findMyRaffles,
-    updateTicketsAvaliables
+    updateTicketsAvaliables,
+    deleteMyRaffle
 
 }
 export default rafflesRepository;
