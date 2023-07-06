@@ -17,8 +17,9 @@ async function firstNumbers(quantity: number,purchaseId:number, raffleId: number
   const numbersFirst = arrayEmbaralhado.slice(0, quantity);
   //caso o mesmo usuario ja tenha comprado, os numeros vão ser apenas acrescentados
   const findReservation = await webhookRepository.findBuyer(buyerId);
+  const findRaffleId = await webhookRepository.findRaffle(raffleId)
 
-  if(findReservation && findReservation.raffle_id === raffleId) {
+  if(findReservation && findRaffleId) {
     const updatedTicketNumbers = [...findReservation.ticket_numbers, ...numbersFirst];
     await webhookRepository.updateArrayNumbersBuyer(findReservation.id, updatedTicketNumbers);
   }
@@ -54,7 +55,7 @@ async function findPurchaseAndChangePlan( idPayment: string, next: NextFunction)
         const raffle = await rafflesRepository.findRaffle(buyer.raffle_id)
         const valueTickets = raffle.avaliable_tickets - buyer.quantity_tickets
         await rafflesRepository.updateTicketsAvaliables(raffle.id, valueTickets)
-        firstNumbers(buyer.quantity_tickets, buyer.id, buyer.raffle_id, buyer.buyer_id)
+        firstNumbers(buyer.quantity_tickets, buyer.id, raffle.id, buyer.buyer_id)
         return
       }
       

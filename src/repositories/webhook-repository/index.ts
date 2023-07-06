@@ -92,6 +92,11 @@ async function updateArrayNumbersBuyer(id: number, updateFirstNumbers: string[])
       }
     });
 }
+async function findRaffle(id:number) {
+    return await prisma.numbers_reservations.findFirst({
+        where: {raffle_id: id}
+    })
+}
 const webhookRepository = {
     findByIdPurchase,
     updatePlanByIdPayment,
@@ -104,7 +109,8 @@ const webhookRepository = {
     createNumbersReservations,
     updateStatusPurchases,
     findBuyer,
-    updateArrayNumbersBuyer
+    updateArrayNumbersBuyer,
+    findRaffle
 }
 
 export default webhookRepository;
