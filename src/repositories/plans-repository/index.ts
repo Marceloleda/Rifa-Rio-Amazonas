@@ -1,6 +1,12 @@
 import { prisma } from "@/config";
 import { plans } from "@prisma/client";
 
+async function findPlanTest() {
+    return await prisma.plans.findUnique({
+        where:{name: 'Plano Teste'}
+    })
+}
+
 async function findPlanBasic() {
     return await prisma.plans.findUnique({
         where:{name: 'Plano Básico'}
@@ -28,6 +34,7 @@ const planRepository = {
     findPlanBasic,
     findPlanPremium,
     findPlanMegaRifa,
+    findPlanTest,
     findAllPlans,
     findPlanById
 }
