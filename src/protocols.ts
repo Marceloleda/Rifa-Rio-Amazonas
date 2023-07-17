@@ -37,5 +37,5 @@ export type buyData ={
     phone_number: string,
     idRaffle: string,
     quantity: number,
-    total: number
+    total: any
 }

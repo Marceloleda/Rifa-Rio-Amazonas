@@ -30,9 +30,10 @@ async function createPaymentToTicket(body: buyData, next: NextFunction) {
 
     var mercadopago = require('mercadopago');
     mercadopago.configurations.setAccessToken(process.env.TOKEN_MERCADOPAGO_PRODUCTION);
+    const amountNumber = parseFloat(total)
 
     var payment_data = {
-      transaction_amount: total,
+      transaction_amount: amountNumber,
       description: raffle.title,
       payment_method_id: 'pix',
       date_of_expiration: expireAt,
