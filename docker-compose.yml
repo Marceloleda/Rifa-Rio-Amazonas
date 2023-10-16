@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  database:
+    image: "postgres:15"
+    container_name: postgres-raffles
+    restart: unless-stopped
+    ports:
+      - 6540:5432
+    volumes:
+      - pgData:/var/lib/postgresql/data
+    env_file:
+      - .env
+  node_app:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 3245:5050
+    env_file:
+      - .env
+    depends_on:
+      - database
+
+
+volumes:
+  pgData:

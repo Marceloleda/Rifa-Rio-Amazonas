@@ -1,5 +1,5 @@
-import { prisma } from "@/config";
-import { SignUp } from "@/protocols";
+import { prisma } from "../../config";
+import { SignUp } from "../../protocols";
 
 async function findByEmail(email: string){
     return await prisma.sellers.findUnique({

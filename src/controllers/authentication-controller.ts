@@ -1,4 +1,4 @@
-import authenticationService, { SignInParams, invalidCredentialsError } from "@/services/authentication-service";
+import authenticationService, { SignInParams } from "../services/authentication-service";
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { authenticateToken } from '@/middlewares';
-import { searchCampaigns, searchSellerData } from "@/controllers";
+import { authenticateToken } from '../middlewares';
+import { searchCampaigns, searchSellerData } from "../controllers";
 
 
 const selllerRouter = Router();

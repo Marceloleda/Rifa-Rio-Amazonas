@@ -1,6 +1,6 @@
-import { notFoundError, unauthorizedError } from "@/errors";
-import { payment_body } from "@/protocols";
-import mercadoPagoRepository from "@/repositories/payments-plan-repository";
+import { notFoundError, unauthorizedError } from "../../errors";
+import { payment_body } from "../../protocols";
+import mercadoPagoRepository from "../../repositories/payments-plan-repository";
 import { config } from "dotenv";
 import { NextFunction} from "express";
 

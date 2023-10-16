@@ -1,7 +1,7 @@
-import { conflictError, notFoundError } from "@/errors"
+import { conflictError, notFoundError } from "../../errors"
 import bcrypt from 'bcrypt';
-import { SignUp } from "@/protocols"
-import sellerRepository from "@/repositories/sellers-repository"
+import { SignUp } from "../../protocols"
+import sellerRepository from "../../repositories/sellers-repository"
 import { Response } from "express"
 
 

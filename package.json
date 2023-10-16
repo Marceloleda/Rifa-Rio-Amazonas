@@ -4,7 +4,7 @@
   "description": "",
   "main": "./dist/app.js",
   "scripts": {
-    "start": "node dist/app.js",
+    "start": "node dist/server.js",
     "dev:load-envs": "dotenv -e .env.development",
     "dev:migration:run": "npm run dev:load-envs prisma migrate deploy",
     "dev:migration:generate": "npm run dev:load-envs prisma migrate dev",
@@ -23,7 +23,7 @@
   "dependencies": {
     "@brazilian-utils/brazilian-utils": "^1.0.0-rc.12",
     "@mercadopago/sdk-js": "^0.0.2",
-    "@prisma/client": "^4.13.0",
+    "@prisma/client": "^5.4.2",
     "@types/cors": "^2.8.13",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
@@ -43,6 +43,7 @@
     "jsonwebtoken": "^9.0.0",
     "mercadopago": "^1.5.16",
     "pg": "^8.10.0",
+    "prisma": "^5.4.2",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
@@ -66,13 +67,12 @@
     "lint-staged": "^13.2.2",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
-    "prisma": "^4.13.0",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "ttypescript": "^1.5.15",
-    "typescript": "^5.0.4",
+    "typescript": "^5.2.2",
     "typescript-transform-paths": "^3.4.6"
   }
 }

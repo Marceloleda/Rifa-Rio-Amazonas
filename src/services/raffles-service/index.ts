@@ -1,7 +1,7 @@
-import { forbiddenError, notFoundError, unauthorizedError } from "@/errors";
-import { createRaffle } from "@/protocols";
-import planRepository from "@/repositories/plans-repository";
-import rafflesRepository from "@/repositories/raffles-repository";
+import { forbiddenError, notFoundError, unauthorizedError } from "../../errors";
+import { createRaffle } from "../../protocols";
+import planRepository from "../../repositories/plans-repository";
+import rafflesRepository from "../../repositories/raffles-repository";
 import { raffles, sellers } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import dayjs from "dayjs";

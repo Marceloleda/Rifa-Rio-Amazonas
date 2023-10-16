@@ -1,11 +1,11 @@
-import { notFoundError, unauthorizedError } from "@/errors";
-import { buyData } from "@/protocols";
-import buyerRepository from "@/repositories/buyer-repository";
-import rafflesRepository from "@/repositories/raffles-repository";
+import { notFoundError, unauthorizedError } from "../../errors";
+import { buyData } from "../../protocols";
+import buyerRepository from "../../repositories/buyer-repository";
+import rafflesRepository from "../../repositories/raffles-repository";
 import dayjs from "dayjs";
 import mercadoPagoService from "../mercado-pago-service";
 import { NextFunction } from "express";
-import mercadoPagoRepository from "@/repositories/payments-plan-repository";
+import mercadoPagoRepository from "../../repositories/payments-plan-repository";
 
 async function createPaymentToTicket(body: buyData, next: NextFunction) {
   const {idRaffle, name, email, phone_number, total, quantity} = body

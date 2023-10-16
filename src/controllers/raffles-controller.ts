@@ -1,6 +1,6 @@
-import { AuthenticatedRequest } from "@/middlewares";
-import { createRaffle } from "@/protocols";
-import raffleService from "@/services/raffles-service";
+import { AuthenticatedRequest } from "../middlewares";
+import { createRaffle } from "../protocols";
+import raffleService from "../services/raffles-service";
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 

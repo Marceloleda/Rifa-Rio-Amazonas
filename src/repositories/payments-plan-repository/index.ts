@@ -1,4 +1,4 @@
-import { prisma } from "@/config";
+import { prisma } from "../../config";
 
 async function createPlanPayment(id_plan: number,payment:any, id: number) {
     const paymentId = payment.id;

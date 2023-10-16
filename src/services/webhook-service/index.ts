@@ -1,7 +1,7 @@
-import { notFoundError } from "@/errors";
-import planRepository from "@/repositories/plans-repository";
-import rafflesRepository from "@/repositories/raffles-repository";
-import webhookRepository from "@/repositories/webhook-repository";
+import { notFoundError } from "../../errors";
+import planRepository from "../../repositories/plans-repository";
+import rafflesRepository from "../../repositories/raffles-repository";
+import webhookRepository from "../../repositories/webhook-repository";
 import { config } from "dotenv";
 import { NextFunction} from "express";
 var mercadopago = require('mercadopago');

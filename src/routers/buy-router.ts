@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { authenticateToken } from '@/middlewares';
-import { buyTicket } from "@/controllers/buyer -controller";
+// import { authenticateToken } from '@/middlewares';
+import { buyTicket } from "../controllers/buyer -controller";
 
 
 const buyRouter = Router();

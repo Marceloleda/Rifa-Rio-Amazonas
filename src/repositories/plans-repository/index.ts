@@ -1,5 +1,4 @@
-import { prisma } from "@/config";
-import { plans } from "@prisma/client";
+import { prisma } from "../../config";
 
 async function findPlanTest() {
     return await prisma.plans.findUnique({

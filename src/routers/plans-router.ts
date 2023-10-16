@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { authenticateToken } from '@/middlewares';
-import { basicPlan, getAllPlans, masterRafflePlan, premiumPlan } from "@/controllers";
+import { authenticateToken } from '../middlewares';
+import { basicPlan, getAllPlans, masterRafflePlan, premiumPlan } from "../controllers";
 
 
 const plansRouter = Router();

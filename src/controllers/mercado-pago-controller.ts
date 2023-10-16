@@ -1,9 +1,9 @@
 import { NextFunction, Response } from "express";
 import { config } from "dotenv";
-import { payment_body } from "@/protocols";
+import { payment_body } from "../protocols";
 import dayjs from "dayjs";
-import { unauthorizedError } from "@/errors";
-import mercadoPagoService from "@/services/mercado-pago-service";
+import { unauthorizedError } from "../errors";
+import mercadoPagoService from "../services/mercado-pago-service";
 import httpStatus from "http-status";
 config();
 

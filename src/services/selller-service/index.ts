@@ -1,5 +1,5 @@
-import { notFoundError, unauthorizedError } from "@/errors"
-import sellerRepository from "@/repositories/sellers-repository"
+import { notFoundError, unauthorizedError } from "../../errors"
+import sellerRepository from "../../repositories/sellers-repository"
 
 async function findSellerData(userId: number): Promise<any> {
         const seller = await sellerRepository.findByUserId(userId)

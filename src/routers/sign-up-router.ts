@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { validateBody } from '@/middlewares';
-import { signUpSchema } from '@/schemas';
-import { createSignUpSeller } from "@/controllers";
+import { validateBody } from '../middlewares';
+import { signUpSchema } from '../schemas';
+import { createSignUpSeller } from "../controllers";
 
 
 const signUpRouter = Router();

@@ -1,5 +1,5 @@
-import { prisma } from "@/config";
-import { createRaffle } from "@/protocols";
+import { prisma } from "../../config";
+import { createRaffle } from "../../protocols";
 
 async function createRaffles(data: createRaffle){
     return await prisma.raffles.create({

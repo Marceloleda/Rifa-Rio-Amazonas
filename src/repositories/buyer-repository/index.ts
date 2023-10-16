@@ -1,4 +1,4 @@
-import { prisma } from '@/config';
+import { prisma } from '../../config';
 
 async function findBuyerByEmail(email: string) {
     const buyer = await prisma.buyer.findFirst({
