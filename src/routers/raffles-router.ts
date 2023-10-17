@@ -9,8 +9,7 @@ const rafflesRouter = Router();
 rafflesRouter
 .post('/',
 authenticateToken, 
-validateBody(raffleSchema), 
-authenticateToken, createRaffle)
+validateBody(raffleSchema), createRaffle)
 
 rafflesRouter.get('/:id/:slug', findRaffle)
 
