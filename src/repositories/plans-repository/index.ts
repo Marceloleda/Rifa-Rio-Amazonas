@@ -2,23 +2,23 @@ import { prisma } from "../../config";
 
 async function findPlanTest() {
     return await prisma.plans.findUnique({
-        where:{name: 'Plano Teste'}
+        where:{name: 'Pacote Teste'}
     })
 }
 
 async function findPlanBasic() {
     return await prisma.plans.findUnique({
-        where:{name: 'Plano Básico'}
+        where:{name: 'Pacote Básico'}
     })
 }
 async function findPlanPremium() {
     return await prisma.plans.findUnique({
-        where:{name: 'Plano Premium'}
+        where:{name: 'Pacote Premium'}
     })
 }
 async function findPlanMegaRifa() {
     return await prisma.plans.findUnique({
-        where:{name: 'Plano Mega Rifa'}
+        where:{name: 'Pacote Mega Rifa'}
     })
 }
 async function findAllPlans(): Promise<any> {
