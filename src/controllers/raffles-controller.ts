@@ -11,6 +11,7 @@ export async function createRaffle(req: AuthenticatedRequest, res: Response, nex
         await raffleService.raffleCreate(res, data, userId);
         return res.sendStatus(httpStatus.CREATED);
     }catch(error){
+        console.log(error)
         next(error)
     }
 }
