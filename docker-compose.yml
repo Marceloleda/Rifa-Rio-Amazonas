@@ -1,26 +1,14 @@
 version: "3.9"
 
 services:
-  openssl:
-    build: ./openssl
-    volumes:
-      - ssl-certs:/certs
 
   node_app:
     container_name: api
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     restart: unless-stopped
     ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ssl-certs:/certs
+      - 1234:5000
     env_file:
       - .env
-    depends_on:
-      - openssl
 
-volumes:
-  ssl-certs:
+

@@ -11,6 +11,6 @@ RUN npm run build
 
 USER node
 
-EXPOSE 80
+EXPOSE 5000
 
 CMD ["npm", "start"]    
